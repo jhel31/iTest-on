@@ -4,7 +4,9 @@
 		<jta-data-source>java:/iTest-onDS</jta-data-source>
 		<class>pe.edu.upc.iTeston.models.entities.Career</class>
 		<class>pe.edu.upc.iTeston.models.entities.Course</class>
+		<class>pe.edu.upc.iTeston.models.entities.Exercise</class>
 		<class>pe.edu.upc.iTeston.models.entities.Freemium</class>
+		<class>pe.edu.upc.iTeston.models.entities.QuestionBank</class>
 		<class>pe.edu.upc.iTeston.models.entities.Quiz</class>
 		<class>pe.edu.upc.iTeston.models.entities.Subscription</class>
 		<class>pe.edu.upc.iTeston.models.entities.Teacher</class>
