@@ -16,10 +16,12 @@ public class Approval {
 	@Column(name = "id_approval", length = 20, nullable = false)
 	private String id;
 	
-	//@Column(name = "id_student")
+	//@ManyToOne(fetch = FetchType.LAZY)
+	//@JoinColumn(name = "id_student", nullable = true)
 	//private Student student;
 	
-	//@Column(name = "id_question_bank")
+	//@ManyToOne(fetch = FetchType.LAZY)
+	//@JoinColumn(name = "id_question_bank", nullable = true)
 	//private QuestionBank questionBank;
 	
 	@Column(name = "approval_level")
