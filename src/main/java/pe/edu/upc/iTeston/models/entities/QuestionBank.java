@@ -29,10 +29,10 @@ public class QuestionBank {
 	@JoinColumn(name = "id_teacher", nullable = false)
 	private Teacher teacher;
 	
-	@Column(name = "id_question_bank", length = 8)
+	@Column(name = "description", length = 100)
 	private String description;
 	
-	@Column(name = "results", columnDefinition = "DECIMAL(2,2)")
+	@Column(name = "results", columnDefinition = "DECIMAL(3,2)")
 	private Float results;
 	
 	@Column(name = "creation_date")
