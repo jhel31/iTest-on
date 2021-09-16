@@ -25,11 +25,11 @@ public class Teacher{
 	@Column(name = "lastname_teacher",length= 30, nullable = false)	
 	private String lastname;
 	
-	@Column(name = "correo_teacher",length= 100, nullable = false)	
-	private String correo;
+	@Column(name = "email_teacher",length= 100, nullable = false)	
+	private String email;
 	
-	@Column(name = "contraseña",length= 30, nullable = false)	
-	private String contraseña;
+	@Column(name = "password",length= 30, nullable = false)	
+	private String password;
 	
 	@Column(name = "document_experience",length= 30, nullable = false)	
 	private Boolean documentExperience;
