@@ -7,14 +7,17 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import pe.edu.upc.iTeston.models.entities.UniversityDetail;
-import pe.edu.upc.iTeston.models.repository.UniversityDetailRepository;
+
+import pe.edu.upc.iTeston.models.entities.Exercise;
+import pe.edu.upc.iTeston.models.repository.ExerciseRepository;
+
 @Named
 @ApplicationScoped
-public class UniversityDetailRepositoryImpl implements UniversityDetailRepository {
-
+public class ExerciseRepositoryImpl implements ExerciseRepository{
+	
 	@PersistenceContext(unitName = "pandemiaPU")
 	private EntityManager entityManager;
+
 	@Override
 	public EntityManager getEntityManager() {
 		// TODO Auto-generated method stub
@@ -22,18 +25,15 @@ public class UniversityDetailRepositoryImpl implements UniversityDetailRepositor
 	}
 
 	@Override
-	public Optional<UniversityDetail> findById(String id) throws Exception {
+	public Optional<Exercise> findById(String id) throws Exception {
 		// TODO Auto-generated method stub
-		return findById(id,UniversityDetail.class);
+		return findById(id, Exercise.class);
 	}
 
 	@Override
-	public List<UniversityDetail> findAll() throws Exception {
-		String jpql = "SELECT universitydetail FROM UniversityDetail universitydetail ";
-
-		return findAll(UniversityDetail.class,jpql);
+	public List<Exercise> findAll() throws Exception {
+		String jpql ="SELECT exercise FROM Exercise Exercise";
+		return findAll(Exercise.class,jpql);
 	}
-
-	
 
 }
