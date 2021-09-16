@@ -25,9 +25,9 @@ public class QuestionBank {
 	@JoinColumn(name = "id_quiz", nullable = false)
 	private Quiz quiz;
 	
-	//@ManyToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "id_teacher", nullable = false)
-	//private Teacher teacher;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_teacher", nullable = false)
+	private Teacher teacher;
 	
 	@Column(name = "id_question_bank", length = 8)
 	private String description;
