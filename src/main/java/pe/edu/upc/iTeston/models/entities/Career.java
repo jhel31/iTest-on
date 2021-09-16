@@ -6,11 +6,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity 
-@Table(name = "Careers")
+@Table(name = "Careers",
+	indexes = { @Index(columnList = "name_career", name = "careers_index_name_career")})
 
 public class Career {
 

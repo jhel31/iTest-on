@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "UniversityDetails")
+@Table(name = "University_Details")
 public class UniversityDetail {
 	@Id
 	@Column(name = "id_university_details", length = 9, nullable = false)
