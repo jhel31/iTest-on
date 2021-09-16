@@ -3,6 +3,7 @@ package pe.edu.upc.iTeston.models.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Quizzes")
 public class Quiz {
+	
 	@Id
 	@Column(name = "id_quiz", length = 10, nullable = false)
 	private String id;
