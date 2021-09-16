@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-	<persistence-unit name="iTest-on" transaction-type="JTA">
-		<jta-data-source>java:/iTest-onDS</jta-data-source>
-		<class>pe.edu.upc.iTeston.models.entities.Career</class>
-		<class>pe.edu.upc.iTeston.models.entities.Freemium</class>
-		<class>pe.edu.upc.iTeston.models.entities.Quiz</class>
-		<class>pe.edu.upc.iTeston.models.entities.Subscription</class>
-		<class>pe.edu.upc.iTeston.models.entities.University</class>
-		<class>pe.edu.upc.iTeston.models.entities.UniversityDetail</class>
-		<exclude-unlisted-classes>false</exclude-unlisted-classes>
-		<properties>
-			<property
-				name="javax.persistence.schema-generation.database.action"
-				value="drop-and-create" />
-		</properties>
-	</persistence-unit>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd%22%3E">
+    <persistence-unit name="iTest-on" transaction-type="JTA">
+        <jta-data-source>java:/iTest-onDS</jta-data-source>
+        <class>pe.edu.upc.iTeston.models.entities.Career</class>
+        <class>pe.edu.upc.iTeston.models.entities.Exercise</class>
+        <class>pe.edu.upc.iTeston.models.entities.Freemium</class>
+        <class>pe.edu.upc.iTeston.models.entities.QuestionBank</class>
+        <class>pe.edu.upc.iTeston.models.entities.Quiz</class>
+        <class>pe.edu.upc.iTeston.models.entities.Subscription</class>
+        <class>pe.edu.upc.iTeston.models.entities.University</class>
+        <class>pe.edu.upc.iTeston.models.entities.UniversityDetail</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property
+                name="javax.persistence.schema-generation.database.action"
+                value="drop-and-create" />
+        </properties>
+    </persistence-unit>
 </persistence>
+
