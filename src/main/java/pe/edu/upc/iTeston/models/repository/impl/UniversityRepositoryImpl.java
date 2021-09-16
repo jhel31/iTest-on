@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import pe.edu.upc.iTeston.models.entities.University;
 import pe.edu.upc.iTeston.models.repository.UniversityRepository;
-
+@Named
+@ApplicationScoped
 public class UniversityRepositoryImpl implements UniversityRepository{
 	
 	@PersistenceContext(unitName = "pandemiaPU")

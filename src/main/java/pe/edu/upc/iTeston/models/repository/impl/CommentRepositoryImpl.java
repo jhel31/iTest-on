@@ -1,4 +1,5 @@
 package pe.edu.upc.iTeston.models.repository.impl;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -6,30 +7,32 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import pe.edu.upc.iTeston.models.entities.Quiz;
-import pe.edu.upc.iTeston.models.repository.QuizRepository;
+
+import pe.edu.upc.iTeston.models.entities.Comment;
+import pe.edu.upc.iTeston.models.repository.CommentRepository;
+
 @Named
 @ApplicationScoped
-public class QuizRepositoryImpl implements QuizRepository{
-
+public class CommentRepositoryImpl implements CommentRepository{
+	
 	@PersistenceContext(unitName = "iTest-on")
 	private EntityManager entityManager;
-	
+
 	@Override
 	public EntityManager getEntityManager() {
-
+		// TODO Auto-generated method stub
 		return entityManager;
 	}
+
 	@Override
-	public Optional<Quiz> findById(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return findById(id, Quiz.class);
+	public Optional<Comment> findById(Integer id) throws Exception {
+		return findById(id, Comment.class);
 	}
 
 	@Override
-	public List<Quiz> findAll() throws Exception {
-		String jpql = "SELECT quiz FROM Quiz quiz ";
-		return findAll(Quiz.class,jpql);
+	public List<Comment> findAll() throws Exception {
+		String jpql = "SELECT comment FROM Comment comment";
+		return findAll(Comment.class, jpql);
 	}
 
 }

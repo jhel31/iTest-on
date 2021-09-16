@@ -7,7 +7,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name = "Freemiums")
 public class Freemium {
 	@Id
 	@Column(name = "id_freemium", length = 20)
@@ -15,4 +15,6 @@ public class Freemium {
 	@OneToOne(mappedBy= "freemium" )
 	private Quiz quiz;
 
+	@Column(name = "active", nullable = false)
+	private Boolean active;
 }
