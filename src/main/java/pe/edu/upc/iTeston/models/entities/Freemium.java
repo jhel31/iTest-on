@@ -17,4 +17,7 @@ public class Freemium {
 
 	@Column(name = "active", nullable = false)
 	private Boolean active;
+	
+	@OneToOne(mappedBy = "freemium")
+	private Student students;
 }

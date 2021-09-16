@@ -21,13 +21,11 @@ public class UniversityRepositoryImpl implements UniversityRepository{
 	
 	@Override
 	public EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
 		return entityManager;
 	}
 
 	@Override
 	public Optional<University> findById(String id) throws Exception {
-		// TODO Auto-generated method stub
 		return findById(id,University.class);
 	}
 

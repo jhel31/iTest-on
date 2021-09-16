@@ -15,24 +15,22 @@ import pe.edu.upc.iTeston.models.repository.ExerciseRepository;
 @ApplicationScoped
 public class ExerciseRepositoryImpl implements ExerciseRepository{
 	
-	@PersistenceContext(unitName = "pandemiaPU")
+	@PersistenceContext(unitName = "iTest-on")
 	private EntityManager entityManager;
 
 	@Override
 	public EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
 		return entityManager;
 	}
 
 	@Override
 	public Optional<Exercise> findById(String id) throws Exception {
-		// TODO Auto-generated method stub
 		return findById(id, Exercise.class);
 	}
 
 	@Override
 	public List<Exercise> findAll() throws Exception {
-		String jpql ="SELECT exercise FROM Exercise Exercise";
+		String jpql ="SELECT exercise FROM Exercise exercise";
 		return findAll(Exercise.class,jpql);
 	}
 

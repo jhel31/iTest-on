@@ -23,7 +23,7 @@ public class Career {
 	@Column(name = "name_career", length = 30)
 	private String name;
 	
-	@OneToMany(mappedBy = "career", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "career",fetch = FetchType.LAZY)
 	private List<UniversityDetail> universityDetails;
 	
 }

@@ -42,11 +42,11 @@ public class QuestionBank {
 	@OneToMany(mappedBy = "questionBank")
 	private List<Exercise> exercises;
 	
-	/*
+	@OneToMany(mappedBy = "questionBank")
+	private List<Approval> approvals;
+	
 	@OneToMany(mappedBy = "questionBank")
 	private List<Comment> comments;
 	
-	@OneToMany(mappedBy = "questionBank")
-	private List<Approval> approvals;
-	*/
+	
 }

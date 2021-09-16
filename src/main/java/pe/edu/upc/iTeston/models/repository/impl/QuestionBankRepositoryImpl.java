@@ -15,18 +15,16 @@ import pe.edu.upc.iTeston.models.repository.QuestionBankRepository;
 @ApplicationScoped
 public class QuestionBankRepositoryImpl implements QuestionBankRepository{
 
-	@PersistenceContext(unitName = "pandemiaPU")
+	@PersistenceContext(unitName = "iTest-on")
 	private EntityManager entityManager;
 	
 	@Override
 	public EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
 		return entityManager;
 	}
 
 	@Override
 	public Optional<QuestionBank> findById(String id) throws Exception {
-		// TODO Auto-generated method stub
 		return findById(id, QuestionBank.class);
 	}
 

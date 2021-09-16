@@ -20,7 +20,6 @@ public class CommentRepositoryImpl implements CommentRepository{
 
 	@Override
 	public EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
 		return entityManager;
 	}
 

@@ -1,10 +1,13 @@
-package pe.edu.upc.iTeston.models.entities;
+	package pe.edu.upc.iTeston.models.entities;
 
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,18 +19,18 @@ public class Approval {
 	@Column(name = "id_approval", length = 20, nullable = false)
 	private String id;
 	
-	//@ManyToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "id_student", nullable = true)
-	//private Student student;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_student", nullable = true)
+	private Student student;
 	
-	//@ManyToOne(fetch = FetchType.LAZY)
-	//@JoinColumn(name = "id_question_bank", nullable = true)
-	//private QuestionBank questionBank;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_question_bank", nullable = true)
+	private QuestionBank questionBank;
 	
-	@Column(name = "approval_level")
+	@Column(name = "level_approval")
 	private Integer approvalLevel;
 	
-	@Column(name="approval_date")
+	@Column(name="date_approval")
 	@Temporal(TemporalType.DATE)
 	private Date approvalDate;
 }
