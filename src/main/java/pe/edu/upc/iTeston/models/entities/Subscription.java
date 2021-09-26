@@ -35,6 +35,8 @@ public class Subscription {
 	@OneToMany(mappedBy = "subscription")
 	private List<Quiz> quizzes;
 	
-
+	@Column(name = "plan_price" )
+	private float plan;
+	
 }
 
