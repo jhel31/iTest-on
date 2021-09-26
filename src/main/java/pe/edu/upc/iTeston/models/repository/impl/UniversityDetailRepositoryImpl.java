@@ -13,17 +13,15 @@ import pe.edu.upc.iTeston.models.repository.UniversityDetailRepository;
 @ApplicationScoped
 public class UniversityDetailRepositoryImpl implements UniversityDetailRepository {
 
-	@PersistenceContext(unitName = "pandemiaPU")
+	@PersistenceContext(unitName = "iTest-on")
 	private EntityManager entityManager;
 	@Override
 	public EntityManager getEntityManager() {
-		// TODO Auto-generated method stub
 		return entityManager;
 	}
 
 	@Override
 	public Optional<UniversityDetail> findById(String id) throws Exception {
-		// TODO Auto-generated method stub
 		return findById(id,UniversityDetail.class);
 	}
 

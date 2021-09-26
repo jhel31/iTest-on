@@ -18,7 +18,6 @@ public class ExerciseServiceImpl implements ExerciseService{
 	
 	@Override
 	public JpaRepository<Exercise, String> getJpaRepository() {
-		// TODO Auto-generated method stub
 		return exerciseRepository;
 	}
 
