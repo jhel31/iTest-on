@@ -16,7 +16,7 @@ import pe.edu.upc.iTeston.models.repository.UniversityRepository;
 @ApplicationScoped
 public class UniversityRepositoryImpl implements UniversityRepository{
 	
-	@PersistenceContext(unitName = "pandemiaPU")
+	@PersistenceContext(unitName = "iTest-on")
 	private EntityManager entityManager;
 	
 	@Override
