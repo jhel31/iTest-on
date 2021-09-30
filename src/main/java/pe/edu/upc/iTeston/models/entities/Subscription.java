@@ -15,7 +15,7 @@ import javax.persistence.Table;
 
 public class Subscription {
 	@Id
-	@Column(name = "id_subscription", columnDefinition="NUMERIC(4)")
+	@Column(name = "id_subscription", columnDefinition="NUMERIC(40)")
 	private String id;
 	
 	@Column(name = "issueDate_subcription", length = 9, nullable = false)
