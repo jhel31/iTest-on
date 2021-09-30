@@ -9,6 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.PrimeFaces;
+
 import pe.edu.upc.iTeston.business.crud.QuizService;
 import pe.edu.upc.iTeston.models.entities.Quiz;
 
@@ -32,6 +34,27 @@ public class QuizView implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void createNew() {
+		quizSelected = new Quiz();		
+	}
+	public void editQuizSelected() {
+		quizSelected = quizzesSelected.get(0);
+	}
+	
+	public void saveQuiz() {
+		try {
+			quizService.create(quizSelected);
+			quizzes.add(quizSelected);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		PrimeFaces.current().executeScript("PF('quizDialog').hide()");
+		PrimeFaces.current().ajax().update("form:quizDataTable");
+	
 	}
 
 	// get and sets
