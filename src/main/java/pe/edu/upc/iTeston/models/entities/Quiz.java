@@ -28,7 +28,7 @@ public class Quiz {
 	private University university;
 	
 	@ManyToOne
-	@JoinColumn(name = "Quizzes", nullable = false)
+	@JoinColumn(name = "id_subscription", nullable = false)
 	private Subscription subscription;
 	
 	@OneToOne //min 25-video 10 

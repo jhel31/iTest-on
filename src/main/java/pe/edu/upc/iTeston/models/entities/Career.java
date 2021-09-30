@@ -20,7 +20,7 @@ public class Career {
 	@Column(name = "id_career", length = 10, nullable = false)
 	private String id;
 	
-	@Column(name = "name_career", length = 50)
+	@Column(name = "name_career", length = 60)
 	private String name;
 	
 	@OneToMany(mappedBy = "career",fetch = FetchType.LAZY)

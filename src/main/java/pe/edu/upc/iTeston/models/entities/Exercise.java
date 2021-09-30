@@ -22,8 +22,8 @@ public class Exercise {
 	@Column(name = "statement_exercise", length = 1000)
 	private String statement;
 	
-	@Column(name = "score_exercise", columnDefinition = "DECIMAL(2,2)")
-	private Float score;
+	@Column(name = "score_exercise")
+	private Integer score;
 	
 	@Column(name = "correct_alternative", length = 100)
 	private String correctAlternative;
