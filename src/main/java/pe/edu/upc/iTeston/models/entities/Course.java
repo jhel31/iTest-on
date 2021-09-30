@@ -18,7 +18,7 @@ public class Course{
 		@Column(name = "id_course", length = 10, nullable = false)
 		private String id;
 		
-		@Column(name = "name_course",length= 15, nullable = false)	
+		@Column(name = "name_course",length= 30, nullable = false)	
 		private String name;
 		
 		@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
