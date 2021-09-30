@@ -32,8 +32,8 @@ public class QuestionBank {
 	@Column(name = "description", length = 100)
 	private String description;
 	
-	@Column(name = "results", columnDefinition = "DECIMAL(3,2)")
-	private Float results;
+	@Column(name = "results")
+	private Integer results;
 	
 	@Column(name = "creation_date")
 	@Temporal(TemporalType.DATE)
