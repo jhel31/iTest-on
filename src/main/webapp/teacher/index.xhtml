@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+    	<title>Teacher CRUD</title>
+    </h:head>
+
+    <h:body>
+  			<h:form>
+    <div class="card">
+        <p:dataTable var="teacher" value="#{teacherView.teachers}">
+            <p:column headerText="Id">
+                <h:outputText value="#{teacher.id}" />
+            </p:column>
+
+            <p:column headerText="Name">
+                <h:outputText value="#{teacher.name}" />
+            </p:column>
+            
+            <p:column headerText="LastName">
+                <h:outputText value="#{teacher.lastname}" />
+            </p:column>
+            
+            <p:column headerText="Email">
+                <h:outputText value="#{teacher.email}" />
+            </p:column>
+            
+            <p:column headerText="Password">
+                <h:outputText value="#{teacher.password}" />
+            </p:column>
+            
+            <p:column headerText="DocumentExperience">
+                <h:outputText value="#{teacher.documentExperience}" />
+            </p:column>
+            
+
+         </p:dataTable>
+    </div>
+</h:form>
+    </h:body>
+</html>
