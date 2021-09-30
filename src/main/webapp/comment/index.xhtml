@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Comment CRUD</title>
+</h:head>
+
+<h:body>
+	<h:form>
+		<div class="card">
+			<p:dataTable id="commentDT" var="comment"
+				value="#{commentView.comments}" selectionMode="single"
+				selection="#{commentView.commentSelected}" rowkey="#{comment.id}"
+				paginator="true" paginatorPosition="bottom" rows="5"
+				sortMode="single" allowUnsorting="true" reflow="true">
+
+
+				<f:facet name="header">
+					<div class="table-header">
+						<span style="font-weight: bold">COMMENTS</span> <span
+							class="filter-container ui-input-icon-left"> <i
+							class="pi pi-search"></i> <p:inputText id="globalSearch"
+								value="#{commentView.commentSearch.name}" placeholder="Search" />
+						</span>
+						<p:commandButton value="Search" icon="pi pi-check"
+							actionListener="#{commentView.commentSearch}"
+							update="commentDataTable" process="globalSearch @this" />
+						<p:commandButton value="Clean" icon="pi pi-check"
+							actionListener="#{commentView.getAllComment}"
+							update="commentDataTable" process="@this" />
+
+					</div>
+				</f:facet>
+
+				<!-- Table header content  -->
+				<p:column headerText="id">
+					<h:outputText value="#{comment.id}" />
+				</p:column>
+
+				<p:column headerText="description">
+					<h:outputText value="#{comment.description}" />
+				</p:column>
+
+				<p:column headerText="date">
+					<h:outputText value="#{comment.date}" />
+				</p:column>
+
+				<p:ajax event="rowSelectCheckbox"
+					update="comment-button-delete comment-button-edit " />
+				<p:ajax event="rowUnselectCheckbox"
+					update="comment-button-delete comment-button-edit" />
+				<p:ajax event="toggleSelect"
+					update="comment-button-delete comment-button-edit" />
+
+
+
+
+
+
+				<f:facet name="footer">
+					<p:commandButton process="commentDataTable" value="New"
+						icon="pi pi-check" actionListener="#{commentView.createNew}"
+						update="@form:comment-content"
+						oncomplete="PF('commentDialog').show()"
+						styleClass="ui-button-raised ui-button-success" />
+
+					<p:commandButton id="comment-button-edit"
+						process="commentDataTable" value="Edit" icon="pi pi-check"
+						actionListener="#{commentView.editCommentSelected}"
+						update="@form:comment-content"
+						oncomplete="PF('commentDialog').show()"
+						styleClass="ui-button-raised ui-button-help"
+						disabled="#{!commentView.hasCommentSelected()}" />
+
+					<p:commandButton id="comment-button-delete"
+						process="commentDataTable" value="Delete" icon="pi pi-check"
+						oncomplete="PF('commentDialog').show()"
+						styleClass="ui-button-raised ui-button-danger"
+						disabled="#{!commentView.hasCommentsSelected()}"
+						update="commentDataTable" />
+				</f:facet>
+			</p:dataTable>
+		</div>
+	</h:form>
+</h:body>
+</html>
