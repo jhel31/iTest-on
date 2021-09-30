@@ -63,6 +63,7 @@ public class CourseView implements Serializable{
 		PrimeFaces.current().executeScript("PF('courseDialog').hide()");
         PrimeFaces.current().ajax().update("courseDataTable");
 	}
+	
 	public void createNew() {
 		CourseSelected = new Course();
 	
