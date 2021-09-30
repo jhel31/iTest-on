@@ -12,8 +12,8 @@
     <div class="card">
     	
         <p:dataTable id= "exerciseDataTable" var="exercise" value="#{exerciseView.exercises}" 
-        selection ="#{exerciseView.exerciseSelected}" rowKey="#{exercise.id}"
-        paginator="true" paginatorPosition= "bottom" rows="5" sortMode="single">
+        selectionMode="single" selection ="#{exerciseView.exerciseSelected}" rowKey="#{exercise.id}"
+        paginator="true" paginatorPosition= "bottom" rows="3" >
         	<p:column selectionMode="Multiple" style = "width: 16px; text-align:center"/>
             <p:column headerText="Id"> 
                 <h:outputText value="#{exercise.id}" />
