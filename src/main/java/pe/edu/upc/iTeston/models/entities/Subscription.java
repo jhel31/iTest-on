@@ -18,10 +18,10 @@ public class Subscription {
 	@Column(name = "id_subscription", columnDefinition="NUMERIC(4)")
 	private String id;
 	
-	@Column(name = "issueDate_subcription", length = 9, nullable = false)
+	@Column(name = "issueDate_subcription", length = 40, nullable = false)
 	private Date issueDate;
 	
-	@Column(name = "expire_subcription", length = 9, nullable = false)
+	@Column(name = "expire_subcription", length = 40, nullable = false)
 	private String expire;
 	
 	@ManyToOne
