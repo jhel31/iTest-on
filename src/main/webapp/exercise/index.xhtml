@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+   	<title>Exercise CRUD</title>
+</h:head>
+
+<h:body>
+<h:form>
+    <div class="card">
+    	
+        <p:dataTable id= "exerciseDataTable" var="exercise" value="#{exerciseView.exercises}" 
+        selection ="#{exerciseView.exerciseSelected}" rowKey="#{exercise.id}"
+        paginator="true" paginatorPosition= "bottom" rows="5" sortMode="single">
+        	<p:column selectionMode="Multiple" style = "width: 16px; text-align:center"/>
+            <p:column headerText="Id"> 
+                <h:outputText value="#{exercise.id}" />
+            </p:column>
+
+            <p:column sortby="#{exercise.questionBank.id}" headerText="Id_Balotario">
+                <h:outputText value="#{exercise.questionBank.id}" />
+            </p:column>
+
+            <p:column headerText="Statement">
+                <h:outputText value="#{exercise.statement}" />
+            </p:column>
+            
+            <p:column headerText="Score">
+                <h:outputText value="#{exercise.score}" />
+            </p:column>
+            
+            <p:column headerText="Correct alternative">
+                <h:outputText value="#{exercise.correctAlternative}" />
+            </p:column>
+			<f:facet name="footer">
+				<p:commandButton process= "exerciseDataTable" value ="New" icon= "pi pi-check"
+						oncomplete="PF('exerciseDialog').show()" styleClass="rounded-button ui-button-success"/>
+				<p:commandButton process= "exerciseDataTable" value ="Edit" icon= "pi pi-check"
+						oncomplete="PF('exerciseDialog').show()" styleClass="rounded-button ui-button-help"/>
+				<p:commandButton process= "exerciseDataTable" value ="View" icon= "pi pi-check"
+						oncomplete="PF('exerciseDialog').show()"/> 
+				<p:commandButton process= "exerciseDataTable" value ="Delete" icon= "pi pi-check"
+						oncomplete="PF('exerciseDialog').show()" styleClass="rounded-button ui-button-danger"
+						disabled="true"/> 											
+			</f:facet>>
+        </p:dataTable>
+    </div>
+    <p:dialog header= "Header" widgetVar="exerciseDialog" modal="true" showEffect="fade"
+    		minHeight="300" width="300">
+    	<p>Prueba</p> 
+    </p:dialog>
+</h:form>
+</h:body>
+</html>
