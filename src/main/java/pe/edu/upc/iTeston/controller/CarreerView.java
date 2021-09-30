@@ -14,72 +14,78 @@ import org.primefaces.PrimeFaces;
 import pe.edu.upc.iTeston.business.crud.CareerService;
 import pe.edu.upc.iTeston.models.entities.Career;
 
-@Named("CarreerView")
+@Named("careerView")
 @ViewScoped
 public class CarreerView implements Serializable{
 	private static final long serialVersionUID = 1L;
-	private List<Career> Careers;
-	private Career CareerSelected;
-	private List<Career> CareersSelected;
+	private List<Career> careers;
+	private Career careerSelected;
+	private List<Career> careersSelected;
 	
 	@Inject
-	private CareerService CareerService;
+	private CareerService careerService;
 	@PostConstruct
 	public void init() {
-		CareersSelected = new ArrayList<>();
+		careersSelected = new ArrayList<>();
 		try {
-			Careers = CareerService.getAll();
+			careers = careerService.getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
 	}
 
 	public void createNew() {
-		CareerSelected = new Career();		
+		careerSelected = new Career();		
 	}
 	public void editCareerSelected() {
-		CareerSelected = CareersSelected.get(0);
+		careerSelected = careersSelected.get(0);
 	}
 	
 	public void saveCareer() {
 		try {
-			CareerService.create(CareerSelected);
-			Careers.add(CareerSelected);
+			careerService.create(careerSelected);
+			careers.add(careerSelected);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		PrimeFaces.current().executeScript("PF('CareerDialog').hide()");
-		PrimeFaces.current().ajax().update("form:CareerDataTable");
+		PrimeFaces.current().executeScript("PF('careerDialog').hide()");
+		PrimeFaces.current().ajax().update("form:careerDataTable");
 	
 	}
+
 	
 	public List<Career> getCareers() {
-		return Careers;
+		return careers;
 	}
+
 	public void setCareers(List<Career> careers) {
-		Careers = careers;
+		this.careers = careers;
 	}
+
 	public Career getCareerSelected() {
-		return CareerSelected;
+		return careerSelected;
 	}
+
 	public void setCareerSelected(Career careerSelected) {
-		CareerSelected = careerSelected;
+		this.careerSelected = careerSelected;
 	}
+
 	public List<Career> getCareersSelected() {
-		return CareersSelected;
+		return careersSelected;
 	}
+
 	public void setCareersSelected(List<Career> careersSelected) {
-		CareersSelected = careersSelected;
+		this.careersSelected = careersSelected;
 	}
+
 	public CareerService getCareerService() {
-		return CareerService;
+		return careerService;
 	}
+
 	public void setCareerService(CareerService careerService) {
-		CareerService = careerService;
+		this.careerService = careerService;
 	}
-	
-	
-	
+
 }
