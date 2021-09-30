@@ -8,6 +8,56 @@
     </h:head>
     <h:body>
     
-        
+    <h:form>
+    
+      <p:dataTable id="universityDataTable" var="university" value="#{universityView.universities}" 
+        		selection="#{universityView.universitiesSelected}" 
+        		rowKey="#{university.id}" paginator="true" paginatorPosition="bottom"
+        		rows="3" sortMode="single" allowUnsorting="true">
+        	<p:column selectionMode="Multiple" style="width:16px;text-align:center" />
+        	
+            <p:column headerText="Id" sortBy="#{region.id}">
+                <h:outputText value="#{region.id}" />
+            </p:column>
+            <p:column headerText="Name" sortBy="#{region.name}">
+                <h:outputText value="#{region.name}" />
+            </p:column>
+            
+            <p:column>
+            	<p:commandButton icon="pi pi-pencil" oncomplete="PF('regionDialog').show()"
+            			styleClass="edit-button rounded-button ui-button-success" 
+            			update="@form:region-content" process="@this">
+            		<f:setPropertyActionListener value="#{region}" target="#{regionView.regionSelected}"/>
+            		<p:resetInput target="@form:region-content"/>
+            	</p:commandButton>
+            	<p:commandButton icon="pi pi-trash" style="margin-left: 10px;"
+            			styleClass="rounded-button ui-button-danger" />
+            </p:column>
+            
+            <p:ajax event="rowSelectCheckbox" update="region-button-delete region-button-edit " />
+            <p:ajax event="rowUnselectCheckbox" update="region-button-delete region-button-edit" />
+            <p:ajax event="toggleSelect" update="region-button-delete region-button-edit" />            
+            
+            <f:facet name="footer">
+            	<p:commandButton process="regionDataTable" value="New" icon="pi pi-check" 
+            			actionListener="#{regionView.createNew}" update="@form:region-content"
+            			oncomplete="PF('regionDialog').show()" styleClass="ui-button-raised ui-button-success" />
+            	
+            	<p:commandButton id="region-button-edit" process="regionDataTable" value="Edit" icon="pi pi-check" 
+            			actionListener="#{regionView.editRegionSelected}" update="@form:region-content"
+            			oncomplete="PF('regionDialog').show()" styleClass="ui-button-raised ui-button-help"
+            			disabled="#{!regionView.hasRegionSelected()}" />
+            	
+            	<p:commandButton id="region-button-delete" process="regionDataTable" value="Delete" icon="pi pi-check" 
+            			oncomplete="PF('regionDialog').show()" styleClass="ui-button-raised ui-button-danger"
+            			disabled="#{!regionView.hasRegionsSelected()}" update="regionDataTable" />
+            </f:facet>
+        </p:dataTable>
+    
+    
+    
+    
+    </h:form>
+      	  
     </h:body>
 </html>
