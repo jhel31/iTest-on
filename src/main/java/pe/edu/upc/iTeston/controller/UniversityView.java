@@ -9,6 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.PrimeFaces;
+
 import pe.edu.upc.iTeston.business.crud.UniversityService;
 import pe.edu.upc.iTeston.models.entities.University;
 @Named("universityView")
@@ -34,6 +36,32 @@ public class UniversityView implements Serializable{
 		}
 	}
 
+	
+	
+	
+	
+	public void createNew() {
+		universitySelected = new University();		
+	}
+	public void editRegionSelected() {
+		universitySelected = universitiesSelected.get(0);
+	}
+	
+	public void saveUniversity() {
+		try {
+			universityService.create(universitySelected);
+			universities.add(universitySelected);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		PrimeFaces.current().executeScript("PF('universityDialog').hide()");
+		PrimeFaces.current().ajax().update("form:universityDataTable");
+	
+	}
+	
+	
 	//get and sets
 	public List<University> getUniversities() {
 		return universities;

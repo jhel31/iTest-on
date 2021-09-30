@@ -9,19 +9,18 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.PrimeFaces;
+
 import pe.edu.upc.iTeston.business.crud.ExerciseService;
 import pe.edu.upc.iTeston.models.entities.Exercise;
-
 @Named("exerciseView")
 @ViewScoped
 public class ExerciseView implements Serializable{
-	
 	private static final long serialVersionUID = 1L;
-	
+
 	private List<Exercise> exercises;
 	private Exercise exerciseSelected;
 	private List<Exercise> exercisesSelected;
-	
 	@Inject
 	private ExerciseService exerciseService;
 	
@@ -35,11 +34,26 @@ public class ExerciseView implements Serializable{
 		}
 	}
 	
-	public boolean hasexercisesSelected() {
-		if(exercisesSelected.isEmpty()) {
-			return false;
+	
+	public void createNew() {
+		exerciseSelected = new Exercise();		
+	}
+	public void editExerciseSelected() {
+		exerciseSelected = exercisesSelected.get(0);
+	}
+	
+	public void saveExercise() {
+		try {
+			exerciseService.create(exerciseSelected);
+			exercises.add(exerciseSelected);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return true;
+		PrimeFaces.current().executeScript("PF('exerciseDialog').hide()");
+		PrimeFaces.current().ajax().update("form:exerciseDataTable");
+	
 	}
 
 	public List<Exercise> getExercises() {
@@ -75,11 +89,4 @@ public class ExerciseView implements Serializable{
 	}
 
 
-	
-	
-	
-	
-	
-	
-	
 }
