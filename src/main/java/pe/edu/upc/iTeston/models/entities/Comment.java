@@ -19,9 +19,8 @@ import javax.persistence.TemporalType;
 public class Comment {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_comment")
-	private Integer id;
+	@Column(name = "id_comment", length = 20)
+	private String  id;
 	
 	@Column(name = "description_comment", length = 1000)
 	private String description;
