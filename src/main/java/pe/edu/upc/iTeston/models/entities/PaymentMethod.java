@@ -28,9 +28,6 @@ public class PaymentMethod {
 	@Transient
 	private int codeCard;
 	
-	@Column(name = "pay_Subcription", nullable = false)
-	private float pay;
-	
 	@Column(name = "expire_date")
 	@Temporal(TemporalType.DATE)
 	private Date date;
