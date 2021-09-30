@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Comment CRUD</title>
+</h:head>
+
+<h:body>
+	<h:form>
+		<div class="card">
+			<p:dataTable id="commentDT" var="comment"
+				value="#{commentView.comments}" selectionMode="single"
+				selection="#{commentView.commentSelected}" rowkey="#{comment.id}"
+				paginator="true" paginatorPosition="bottom" rows="5"
+				sortMode="single" allowUnsorting="true" reflow="true">
+
+				<f:facet name="header">
+					<div class="table-header">
+						<span style="font-weight: bold">COMMENTS</span> <span
+							class="filter-container ui-input-icon-left"> <i
+							class="pi pi-search"></i> <p:inputText id="globalSearch"
+								value="#" placeholder="Search" />
+						</span>
+						<p:commandButton value="Search" icon="pi pi-check"
+							update="commentDataTable" process="globalSearch @this" />
+						<p:commandButton value="Clean" icon="pi pi-check"
+							actionListener="#{commentView.getAllComment}"
+							update="commentDataTable" process="@this" />
+
+					</div>
+				</f:facet>
+
+				<p:column headerText="id">
+					<h:outputText value="#{comment.id}" />
+				</p:column>
+
+				<p:column headerText="description">
+					<h:outputText value="#{comment.description}" />
+				</p:column>
+
+				<p:column headerText="date">
+					<h:outputText value="#{comment.date}" />
+				</p:column>
+				<f:facet name="footer"></f:facet>
+			</p:dataTable>
+		</div>
+	</h:form>
+</h:body>
+</html>
