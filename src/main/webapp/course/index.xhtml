@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+    </h:head>
+
+    <h:body>
+        <h:form>
+    <div class="card">
+        <p:dataTable id="courseDataTable" var="course" value="#{courseView.courses}" 
+         selection="#{courseView.coursesSelected}" rowKey ="#{course.id}"
+        paginator="true" paginatorPosition="bottom" rows="9" alowUnsorting="true">
+          <p:column selectionMode="Multiple" style="width:16px;text-align:center"/>  
+           
+           
+            <p:column headerText="Id" sortBy="#{course.id}">
+                <h:outputText value="#{course.id}"  />
+            </p:column>
+
+            <p:column headerText="Name" sortBy="#{course.name}">
+                <h:outputText value="#{course.name}"  />
+            </p:column>    
+            
+            <p:column>
+            	<p:commandButton icon="pi pi-pencil" 
+            	styleClass="edit-button rounded-button ui-button-success"/> 
+            	<p:commandButton icon="pi pi-trash" style="margin-left:10px"
+            	styleClass="edit-button rounded-button ui-button-danger" /> 
+            </p:column>
+            
+            
+            <p:ajax event="rowSelectCheckbox" update="region-button-delete region-button-edit"/>
+            <p:ajax event="rowUnselectCheckbox" update="region-button-delete region-button-edit"/>
+            <p:ajax event="toggleSelect" update="region-button-delete region-button-edit"/>
+            
+            
+             <f:facet name="footer">
+             
+             		<p:commandButton process="courseDataTable" value="New" icon="pi pi-check"
+            		 actionListener="#{courseView.createNew}"
+            		 oncomplete="PF('courseDialog').show()" styleClass="ui-button-raised ui-button-success"/>
+					
+					           		 
+            		 <p:commandButton process="courseDataTable" value="View" icon="pi pi-check"
+            		 oncomplete="PF('courseDialog').show()" styleClass="ui-button-raised ui-button-info"/>
+            		 
+            		 <p:commandButton id="region-button-edit" process="courseDataTable" value="Edit" icon="pi pi-check"
+            		 oncomplete="PF('courseDialog').show()" styleClass="ui-button-raised ui-button-help"
+            		 disabled="#{!courseView.hasCoursesSelected()}"/>
+            		 
+            		 <p:commandButton id="region-button-delete" process="courseDataTable" value="Delete" icon="pi pi-check"
+            		 oncomplete="PF('courseDialog').show()" styleClass="ui-button-raised ui-button-danger"
+            		 disabled="#{!courseView.hasCoursesSelected()}" update="@this"/>
+                                          
+              </f:facet>
+             
+        </p:dataTable>
+    </div>
+    	<p:dialog header="Course" widgetVar="courseDialog" modal="true" showEffect="fade" 
+    	 responsive="true" minHeight="300" width="300">
+    	 
+    	<p:outputPanel id="course-content" class="ui-fluid">
+    		
+           	<div class="p-field">
+           	
+           		<p:outputLabel for="id">Id</p:outputLabel>
+    			<p:inputText id="id" value="#{courseView.courseSelected.id}" required="true"/>
+    			
+    			<p:outputLabel for="name">Name</p:outputLabel>
+    			<p:inputText id="name" value="#{courseView.courseSelected.name}" required="true"/>
+    			
+    			
+    		</div>
+    		
+       	</p:outputPanel>
+    		<f:facet name="footer">
+                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{courseView.saveCourse}"
+                                 update="course-content courseDataTable" process="course-content @this"/>
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('courseDialog').hide()"
+                                 class="ui-button-secondary"/>
+          	</f:facet>
+    			
+    			
+    	</p:dialog>
+    
+    
+    
+</h:form>
+        
+        
+        
+        
+        
+    </h:body>
+</html>

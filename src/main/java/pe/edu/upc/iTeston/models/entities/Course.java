@@ -23,4 +23,28 @@ public class Course{
 		
 		@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
 		private List<Teacher> teachers;
+
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public List<Teacher> getTeachers() {
+			return teachers;
+		}
+
+		public void setTeachers(List<Teacher> teachers) {
+			this.teachers = teachers;
+		}
 }
