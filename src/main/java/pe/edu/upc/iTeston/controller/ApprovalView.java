@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.primefaces.PrimeFaces;
+
 import pe.edu.upc.iTeston.business.crud.ApprovalService;
 import pe.edu.upc.iTeston.models.entities.Approval;
 
@@ -13,9 +15,8 @@ public class ApprovalView implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Approval selectedApproval;
-	
-
+	private Approval approvalSelected;
+	private Approval approvalSearch;
 	private List<Approval> approvals;
 	
 	@Inject
@@ -30,6 +31,26 @@ public class ApprovalView implements Serializable{
 		}
 	}
 	
+	public void createNew() {
+		approvalSelected = new Approval();
+	}
+	
+	public void saveApproval() {
+		try {
+			if (approvalSelected.getId() == null) {
+				approvalService.create(approvalSelected);
+			}
+			else {
+				approvalService.update(approvalSelected);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		PrimeFaces.current().executeScript("PF('regionDialog').hide()");
+		PrimeFaces.current().ajax().update("approvalDataTable");
+	}
+	
 	public List<Approval> getApproval(){
 		return approvals;
 	}
@@ -37,12 +58,21 @@ public class ApprovalView implements Serializable{
 	public void setApprovalService (ApprovalService approvalService) {
 		this.approvalService = approvalService;
 	}
-	
-	public Approval getSelectedApproval() {
-		return selectedApproval;
+
+	public Approval getApprovalSelected() {
+		return approvalSelected;
 	}
 
-	public void setSelectedApproval(Approval selectedApproval) {
-		this.selectedApproval = selectedApproval;
+	public void setApprovalSelected(Approval approvalSelected) {
+		this.approvalSelected = approvalSelected;
 	}
+
+	public Approval getApprovalSearch() {
+		return approvalSearch;
+	}
+
+	public void setApprovalSearch(Approval approvalSearch) {
+		this.approvalSearch = approvalSearch;
+	}
+	
 }

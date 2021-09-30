@@ -91,7 +91,7 @@ public class CommentView implements Serializable{
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Remove", "ItemRemoved");
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Remove", "ItemRemoved"));
 	}
 	
 	//Searching
