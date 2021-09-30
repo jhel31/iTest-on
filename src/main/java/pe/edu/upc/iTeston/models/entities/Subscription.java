@@ -15,13 +15,14 @@ import javax.persistence.Table;
 
 public class Subscription {
 	@Id
-	@Column(name = "id_subscription", columnDefinition="NUMERIC(4)")
+	@Column(name = "id_subscription", columnDefinition="NUMERIC(40)")
 	private String id;
 	
-	@Column(name = "issueDate_subcription", length = 50, nullable = false)
+	@Column(name = "issueDate_subcription", length = 40, nullable = false)
 	private Date issueDate;
 	
-	@Column(name = "expire_subcription", length = 50, nullable = false)
+	@Column(name = "expire_subcription", length = 40, nullable = false)
+
 	private String expire;
 	
 	public String getId() {

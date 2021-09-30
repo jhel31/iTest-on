@@ -20,10 +20,28 @@ public class Career {
 	@Column(name = "id_career", length = 10, nullable = false)
 	private String id;
 	
-	@Column(name = "name_career", length = 30)
+	@Column(name = "name_career", length = 60)
 	private String name;
 	
 	@OneToMany(mappedBy = "career",fetch = FetchType.LAZY)
 	private List<UniversityDetail> universityDetails;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	
 	
 }

@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>University CRUD</title>
+</h:head>
+<h:body>
+
+	<h:form>
+		<div class="card">
+			<p:dataTable id="universityDataTable" var="university"
+				value="#{universityView.universities}"
+				selection="#{universitiesSelected}" rowKey="#{university.id}">
+
+
+				<p:column selectionMode="Multiple" width="20px">
+
+				</p:column>
+
+				<p:column headerText="Id">
+					<h:outputText value="#{university.id}" />
+				</p:column>
+
+				<p:column headerText="Name">
+					<h:outputText value="#{university.name}" />
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton process="universityDataTable" value="New"
+						actionListener="#{universityView.createNew()}"
+						update="@form:university-content" oncomplete="PF('universityDialog').show()" />
+						
+					<p:commandButton process="universityDataTable" value="Edit"
+						oncomplete="PF('universityDialog').show()" />
+					<p:commandButton process="universityDataTable" value="View"
+						oncomplete="PF('universityDialog').show()" />
+					<p:commandButton process="universityDataTable" value="Delete"
+						oncomplete="PF('universityDialog').show()"
+						update="universityDataTable" />
+				</f:facet>
+			</p:dataTable>
+		</div>
+		<p:dialog header="university" widgetVar="universityDialog"
+			modal="true" showEffect="fade" minHeight="300" width="300"
+			responsive="true">
+
+			<p:outputPanel id="university-content" class="ui-fluid">
+			
+				
+					<div class="p-field">
+					<p:outputLabel for="Id">Id</p:outputLabel>
+					<p:inputText id ="Id" value="#{universityView.universitySelected.id}" required="true"/>
+					<p:outputLabel for="name">Name</p:outputLabel>
+					<p:inputText id ="name" value="#{universityView.universitySelected.name}" required="true"/>
+					</div>
+			
+			</p:outputPanel>
+			<f:facet name="footer">
+         	<p:commandButton value="Save" icon="pi pi-check" actionListener="#{universityView.saveUniversity}"
+            		update="university-content universityDataTable" process="university-content @this"/>
+         	<p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('universityDialog').hide()"
+            		class="ui-button-secondary"/>
+     	</f:facet>
+		</p:dialog>
+
+	</h:form>
+
+</h:body>
+</html>
