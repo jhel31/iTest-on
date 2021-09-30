@@ -10,10 +10,10 @@
 <h:body>
 <h:form>
     <div class="card">
-    	
+    	<H2>Revisa tus balotarios</H2>
         <p:dataTable id= "exerciseDataTable" var="exercise" value="#{exerciseView.exercises}" 
         selectionMode="single" selection ="#{exerciseView.exerciseSelected}" rowKey="#{exercise.id}"
-        paginator="true" paginatorPosition= "bottom" rows="3" >
+        paginator="true"  rows="10" >
         	<p:column selectionMode="Multiple" style = "width: 16px; text-align:center"/>
             <p:column headerText="Id"> 
                 <h:outputText value="#{exercise.id}" />
