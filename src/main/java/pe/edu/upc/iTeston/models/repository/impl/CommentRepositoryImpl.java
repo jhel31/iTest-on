@@ -24,8 +24,14 @@ public class CommentRepositoryImpl implements CommentRepository{
 	}
 
 	@Override
-	public Optional<Comment> findById(Integer id) throws Exception {
+	public Optional<Comment> findById(String id) throws Exception {				
 		return findById(id, Comment.class);
+	}
+	@Override
+	public List<Comment> findByDescription(String description) throws Exception {
+		String jpql = "SELECT c FROM Comment c WHERE c.description_comment LIKE '%" + description + "%'" ;
+		System.out.println(jpql);
+		return findAll(Comment.class, jpql);
 	}
 
 	@Override
