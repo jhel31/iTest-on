@@ -69,6 +69,7 @@ public class CommentView implements Serializable{
 		try {
 			if (commentSelected.getId() == null) {
 				commentService.create(commentSelected);
+				comments.add(commentSelected);
 			}
 			else {
 				commentService.update(commentSelected);
@@ -85,7 +86,7 @@ public class CommentView implements Serializable{
 	public void deleteComment() {
 		try {
 			this.comments.remove(commentSelected);
-			//commentService.deleteById(this.commentSelected.getId()); // ID's son strings
+			commentService.deleteById(this.commentSelected.getId()); // ID's son strings
 			this.commentSelected = null;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -96,7 +97,14 @@ public class CommentView implements Serializable{
 	
 	//Searching
 	
-	
+	public void searchComment() {
+		try {
+			comments = commentService.findByDescription(commentSearch.getDescription());
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
 	
 	//call
 	

@@ -1,5 +1,7 @@
 package pe.edu.upc.iTeston.business.crud.impl;
 
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,10 +18,14 @@ public class CommentServiceImpl implements CommentService {
 	@Inject
 	private CommentRepository commentRepository;
 	@Override
-	public JpaRepository<Comment, Integer> getJpaRepository() {
+	public JpaRepository<Comment, String> getJpaRepository() {
 		
 		return commentRepository;
 	}
-
+	
+	@Override
+	public List<Comment> findByDescription(String description) throws Exception{
+		return commentRepository.findByDescription(description);
+	}
 	
 }
