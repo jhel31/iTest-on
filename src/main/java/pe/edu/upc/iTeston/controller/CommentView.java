@@ -78,7 +78,7 @@ public class CommentView implements Serializable{
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		PrimeFaces.current().executeScript("PF('regionDialog').hide()");
+		PrimeFaces.current().executeScript("PF('commentDialog').hide()");
 		PrimeFaces.current().ajax().update("commentDataTable");
 	}
 	
