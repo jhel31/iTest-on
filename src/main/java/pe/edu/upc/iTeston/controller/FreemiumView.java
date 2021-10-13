@@ -1,6 +1,7 @@
 package pe.edu.upc.iTeston.controller;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,4 +61,5 @@ public class FreemiumView implements Serializable {
 		PrimeFaces.current().ajax().update("freemiumDataTable");
 	
 	}
+
 }
