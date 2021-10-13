@@ -10,14 +10,25 @@
 
 	<h:form>
 		<div class="card">
+		<p:growl id="messages" showDetail="true"/>
 			<p:dataTable id="universityDataTable" var="university"
 				value="#{universityView.universities}"
 				selection="#{universitiesSelected}" rowKey="#{university.id}">
 
 
-				<p:column selectionMode="Multiple" width="20px">
-
-				</p:column>
+				<f:facet name="header">
+	               <div class="table-header">
+	                   <span style="font-weight: bold">Universities</span>
+	                   <span class="filter-container ui-input-icon-left">
+	                       <i class="pi pi-search"></i>
+	                       <p:inputText id="globalSearch" value="#{universityView.universitySearch.name}" placeholder="Search"/>
+	                   </span>
+	                   <p:commandButton value="Search" icon="pi pi-check" actionListener="#{universityView.searchUniversity}"
+	           			update="universityDataTable" process="globalSearch @this"/>
+	           		<p:commandButton value="Clean" icon="pi pi-check" actionListener="#{universityView.getAllUniversity}"
+	           			update="universityDataTable" process="@this"/>
+	               </div>
+	         	 </f:facet>
 
 				<p:column headerText="Id">
 					<h:outputText value="#{university.id}" />
@@ -26,19 +37,29 @@
 				<p:column headerText="Name">
 					<h:outputText value="#{university.name}" />
 				</p:column>
+				
 				<f:facet name="footer">
 					<p:commandButton process="universityDataTable" value="New"
 						actionListener="#{universityView.createNew()}"
 						update="@form:university-content" oncomplete="PF('universityDialog').show()" />
-						
-					<p:commandButton process="universityDataTable" value="Edit"
-						oncomplete="PF('universityDialog').show()" />
-					<p:commandButton process="universityDataTable" value="View"
-						oncomplete="PF('universityDialog').show()" />
-					<p:commandButton process="universityDataTable" value="Delete"
-						oncomplete="PF('universityDialog').show()"
-						update="universityDataTable" />
 				</f:facet>
+				
+				
+				<p:column>
+	            	<p:commandButton icon="pi pi-pencil" oncomplete="PF('universityDialog').show()"
+	            			styleClass="edit-button rounded-button ui-button-success" 
+	            			update="@form:university-content" process="@this">
+	            		<f:setPropertyActionListener value="#{university}" target="#{universityView.universitySelected}"/>
+	            		<p:resetInput target="@form:university-content"/>
+	            	</p:commandButton>
+	            	<p:commandButton icon="pi pi-trash" style="margin-left: 10px;"
+	            			styleClass="rounded-button ui-button-danger" process="@this"
+	            			oncomplete="PF('deleteDialog').show()">
+	            		<f:setPropertyActionListener value="#{university}" target="#{universityView.universitySelected}"/>
+	            	</p:commandButton>
+	            </p:column>
+				
+				
 			</p:dataTable>
 		</div>
 		<p:dialog header="university" widgetVar="universityDialog"
@@ -63,6 +84,16 @@
             		class="ui-button-secondary"/>
      	</f:facet>
 		</p:dialog>
+				
+			<p:confirmDialog id="prueba" widgetVar="deleteDialog" showEffect="fade" width="300"
+		                     message="Delete the item?" header="Confirm" severity="warn">
+		        <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{universityView.deleteUniversity}"
+		                         process="@this" oncomplete="PF('deleteDialog').hide()"
+		                         update="universityDataTable @form:messages" />
+		        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+		                         onclick="PF('deleteDialog').hide()"/>
+		    </p:confirmDialog>
+
 
 	</h:form>
 

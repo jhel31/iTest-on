@@ -10,7 +10,10 @@
 
 	<h:form>
 		<div class="card">
+			<p:growl id="messages" showDetail="true"/>
+	
 			<p:dataTable id="careerDataTable" var="career"
+			
 				value="#{careerView.careers}"
 				selection="#{careersSelected}" rowKey="#{careers.id}">
 
@@ -19,7 +22,7 @@
                     <span style="font-weight: bold">Careers</span>
                     <span class="filter-container ui-input-icon-left">
                         <i class="pi pi-search"></i>
-                        <p:inputText id="globalSearch" value="#{careerView.Careersearch.name}" placeholder="Search"/>
+                        <p:inputText id="globalSearch" value="#{careerView.careerSearch.name}" placeholder="Search"/>
                     </span>
                     <p:commandButton value="Search" icon="pi pi-check" actionListener="#{careerView.searchCareer}"
             			update="careerDataTable" process="globalSearch @this"/>
@@ -27,9 +30,7 @@
             			update="careerDataTable" process="@this"/>
                 </div>
             </f:facet>
-				<p:column selectionMode="single" width="20px">
-
-				</p:column>
+				
 
 				<p:column headerText="Id">
 					<h:outputText value="#{career.id}" />
@@ -39,23 +40,41 @@
 					<h:outputText value="#{career.name}" />
 				</p:column>
 				
-			
+				<p:column>
+            	<p:commandButton icon="pi pi-pencil" oncomplete="PF('careerDialog').show()"
+            			styleClass="edit-button rounded-button ui-button-success" 
+            			update="@form:career-content" process="@this">
+            		<f:setPropertyActionListener value="#{career}" target="#{careerView.careerSelected}"/>
+            		<p:resetInput target="@form:career-content"/>
+            	</p:commandButton>
+            	<p:commandButton icon="pi pi-trash" style="margin-left: 10px;"
+            			styleClass="rounded-button ui-button-danger" process="@this"
+            			oncomplete="PF('deleteDialog').show()">
+            		<f:setPropertyActionListener value="#{career}" target="#{careerView.careerSelected}"/>
+            	</p:commandButton>
+            </p:column>
+				
+
+			 <f:facet name="footer">
+            	<p:commandButton process="careerDataTable" value="New" icon="pi pi-check" 
+            			actionListener="#{careerView.createNew}" update="@form:career-content"
+            			oncomplete="PF('careerDialog').show()" />
+            
+          	 </f:facet>
+
+
 			</p:dataTable>
 		</div>
 		<p:dialog header="career" widgetVar="careerDialog"
 			modal="true" showEffect="fade" minHeight="300" width="300"
 			responsive="true">
-
 			<p:outputPanel id="career-content" class="ui-fluid">
-			
-				
 					<div class="p-field">
 					<p:outputLabel for="Id">Id</p:outputLabel>
 					<p:inputText id ="Id" value="#{careerView.careerSelected.id}" required="true"/>
 					<p:outputLabel for="name">Name</p:outputLabel>
 					<p:inputText id ="name" value="#{careerView.careerSelected.name}" required="true"/>
-					</div>
-			
+					</div>	
 			</p:outputPanel>
 			<f:facet name="footer">
          	<p:commandButton value="Save" icon="pi pi-check" actionListener="#{careerView.saveCareer}"
@@ -64,6 +83,14 @@
             		class="ui-button-secondary"/>
      	</f:facet>
 		</p:dialog>
+		 	<p:confirmDialog id="prueba" widgetVar="deleteDialog" showEffect="fade" width="300"
+		                     message="Delete the item?" header="Confirm" severity="warn">
+		        <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{careerView.deleteCareer}"
+		                         process="@this" oncomplete="PF('deleteDialog').hide()"
+		                         update="careerDataTable @form:messages" />
+		        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+		                         onclick="PF('deleteDialog').hide()"/>
+		    </p:confirmDialog>
 
 	</h:form>
 

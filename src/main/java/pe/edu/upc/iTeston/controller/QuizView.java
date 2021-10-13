@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,10 +24,9 @@ public class QuizView implements Serializable {
 	private List<Quiz> quizzes;
 	private Quiz quizSelected;
 	private List<Quiz> quizzesSelected;
-
+	
 	@Inject
 	private QuizService quizService;
-
 	@PostConstruct
 	public void init() {
 		quizzesSelected = new ArrayList<>();
@@ -45,18 +46,35 @@ public class QuizView implements Serializable {
 	
 	public void saveQuiz() {
 		try {
-			quizService.create(quizSelected);
-			quizzes.add(quizSelected);
+			if (quizSelected.getId() == null) {
+				quizService.create(quizSelected);
+				quizzes.add(quizSelected);
+			} 
+			else {
+				quizService.update(quizSelected);
+			}			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		PrimeFaces.current().executeScript("PF('quizDialog').hide()");
-		PrimeFaces.current().ajax().update("form:quizDataTable");
+		PrimeFaces.current().executeScript("PF('careerDialog').hide()");
+        PrimeFaces.current().ajax().update("careerDataTable");
 	
 	}
-
+	
+	public void deleteQuiz() {
+		try {
+			this.quizzes.remove(quizSelected);
+			quizService.deleteById(this.quizSelected.getId());
+			this.quizSelected = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "Remove", "Item Removed"));
+	}
+		
 	// get and sets
 	public List<Quiz> getQuizzes() {
 		return quizzes;
@@ -89,5 +107,6 @@ public class QuizView implements Serializable {
 	public void setQuizService(QuizService quizService) {
 		this.quizService = quizService;
 	}
+
 
 }

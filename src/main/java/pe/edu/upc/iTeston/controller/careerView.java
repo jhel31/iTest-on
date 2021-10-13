@@ -33,12 +33,13 @@ public class careerView implements Serializable{
 		careersSelected = new ArrayList<>();
 		try {
 			careers = careerService.getAll();
+			careerSearch = new Career();
+			getAllCareer();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
 	}
 
-	
 	public void createNew() {
 		careerSelected = new Career();		
 	}
@@ -49,15 +50,20 @@ public class careerView implements Serializable{
 	
 	public void saveCareer() {
 		try {
-			careerService.create(careerSelected);
-			careers.add(careerSelected);
+			if (careerSelected.getId() == null) {
+				careerService.create(careerSelected);
+				careers.add(careerSelected);
+			} 
+			else {
+				careerService.update(careerSelected);
+			}			
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		PrimeFaces.current().executeScript("PF('careerDialog').hide()");
-		PrimeFaces.current().ajax().update("form:careerDataTable");
+        PrimeFaces.current().ajax().update("careerDataTable");
 	}
 
 	public void deleteCareer() {
