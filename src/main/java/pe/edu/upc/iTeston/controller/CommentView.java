@@ -139,6 +139,18 @@ public class CommentView implements Serializable{
 	public void setCommentsSelected(List<Comment> commentsSelected) {
 		this.commentsSelected = commentsSelected;
 	}
+
+	public Comment getCommentSearch() {
+		return commentSearch;
+	}
+
+	public void setCommentSearch(Comment commentSearch) {
+		this.commentSearch = commentSearch;
+	}
+
+	public CommentService getCommentService() {
+		return commentService;
+	}
 	
 	
 	

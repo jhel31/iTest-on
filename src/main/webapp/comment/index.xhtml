@@ -11,11 +11,13 @@
 <h:body>
 	<h:form>
 		<div class="card">
-			<p:dataTable id="commentDT" var="comment"
-				value="#{commentView.comments}" selectionMode="single"
-				selection="#{commentView.commentSelected}" rowkey="#{comment.id}"
-				paginator="true" paginatorPosition="bottom" rows="5"
-				sortMode="single" allowUnsorting="true" reflow="true">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:dataTable id="commentDataTable" var="comment"
+				widgetVar="commentDataTableWidget" value="#{commentView.comments}"
+				selectionMode="single" selection="#{commentView.commentsSelected}"
+				rowkey="#{comment.id}" paginator="true" paginatorPosition="bottom"
+				rows="5" sortMode="single" allowUnsorting="true" reflow="true">
 
 
 				<f:facet name="header">
@@ -23,10 +25,11 @@
 						<span style="font-weight: bold">COMMENTS</span> <span
 							class="filter-container ui-input-icon-left"> <i
 							class="pi pi-search"></i> <p:inputText id="globalSearch"
-								value="#{commentView.commentSearch.name}" placeholder="Search" />
+								value="#{commentView.commentSearch.description}"
+								placeholder="Search" />
 						</span>
 						<p:commandButton value="Search" icon="pi pi-check"
-							actionListener="#{commentView.commentSearch}"
+							actionListener="#{commentView.commentSearch.description}"
 							update="commentDataTable" process="globalSearch @this" />
 						<p:commandButton value="Clean" icon="pi pi-check"
 							actionListener="#{commentView.getAllComment}"
@@ -34,6 +37,9 @@
 
 					</div>
 				</f:facet>
+
+				<p:column selectionMode="Multiple"
+					style="width:16px;text-align:center" />
 
 				<!-- Table header content  -->
 				<p:column headerText="id">
@@ -48,6 +54,22 @@
 					<h:outputText value="#{comment.date}" />
 				</p:column>
 
+				<p:column>
+					<p:commandButton icon="pi pi-pencil"
+						oncomplete="PF('commentDialog').show()"
+						styleClass="edit-button rounded-button ui-button-success"
+						update="@form:comment-content" process="@this">
+						<f:setPropertyActionListener value="#{comment}"
+							target="#{commentView.commentSelected}" />
+						<p:resetInput target="@form:comment-content" />
+					</p:commandButton>
+					<p:commandButton icon="pi pi-trash" style="margin-left: 10px;"
+						styleClass="rounded-button ui-button-danger" process="@this"
+						oncomplete="PF('deleteDialog').show()">
+						<f:setPropertyActionListener value="#{comment}"
+							target="#{commentView.commentSelected}" />
+					</p:commandButton>
+				</p:column>
 				<p:ajax event="rowSelectCheckbox"
 					update="comment-button-delete comment-button-edit " />
 				<p:ajax event="rowUnselectCheckbox"
@@ -84,6 +106,35 @@
 				</f:facet>
 			</p:dataTable>
 		</div>
+		<p:dialog header="Comment" widgetVar="commentDialog" modal="true"
+			showEffect="fade" minHeight="300" width="300" responsive="true">
+			<p:outputPanel id="comment-content" class="ui-fluid">
+				<div class="p-field">
+					<p:outputLabel for="description">Name</p:outputLabel>
+					<p:inputText id="description" value="#{commentView.commentSelected.description}"
+						required="true" />
+				</div>
+			</p:outputPanel>
+			<f:facet name="footer">
+				<p:commandButton value="Save" icon="pi pi-check"
+					actionListener="#{commentView.saveComment}"
+					update="comment-content commentDataTable"
+					process="comment-content @this" />
+				<p:commandButton value="Cancel" icon="pi pi-times"
+					onclick="PF('commentDialog').hide()" class="ui-button-secondary" />
+			</f:facet>
+		</p:dialog>
+		<p:confirmDialog id="prueba" widgetVar="deleteDialog"
+			showEffect="fade" width="300" message="Delete the item?"
+			header="Confirm" severity="warn">
+			<p:commandButton value="Yes" icon="pi pi-check"
+				actionListener="#{commentView.deleteComment}" process="@this"
+				oncomplete="PF('deleteDialog').hide()"
+				update="commentDataTable @form:messages" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-button-secondary" icon="pi pi-times"
+				onclick="PF('deleteDialog').hide()" />
+		</p:confirmDialog>
 	</h:form>
 </h:body>
 </html>
