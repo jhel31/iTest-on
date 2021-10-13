@@ -36,10 +36,6 @@ public class UniversityView implements Serializable{
 		}
 	}
 
-	
-	
-	
-	
 	public void createNew() {
 		universitySelected = new University();		
 	}

@@ -14,8 +14,20 @@
 				value="#{careerView.careers}"
 				selection="#{careersSelected}" rowKey="#{careers.id}">
 
-
-				<p:column selectionMode="Multiple" width="20px">
+			<f:facet name="header">
+                <div class="table-header">
+                    <span style="font-weight: bold">Careers</span>
+                    <span class="filter-container ui-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <p:inputText id="globalSearch" value="#{careerView.Careersearch.name}" placeholder="Search"/>
+                    </span>
+                    <p:commandButton value="Search" icon="pi pi-check" actionListener="#{careerView.searchCareer}"
+            			update="careerDataTable" process="globalSearch @this"/>
+            		<p:commandButton value="Clean" icon="pi pi-check" actionListener="#{careerView.getAllCareer}"
+            			update="careerDataTable" process="@this"/>
+                </div>
+            </f:facet>
+				<p:column selectionMode="single" width="20px">
 
 				</p:column>
 
@@ -26,19 +38,8 @@
 				<p:column headerText="Name">
 					<h:outputText value="#{career.name}" />
 				</p:column>
-				<f:facet name="footer">
-					<p:commandButton process="careerDataTable" value="New"
-						actionListener="#{careerView.createNew()}"
-						update="@form:career-content" oncomplete="PF('careerDialog').show()" />
-						
-					<p:commandButton process="careerDataTable" value="Edit"
-						oncomplete="PF('careerDialog').show()" />
-					<p:commandButton process="careerDataTable" value="View"
-						oncomplete="PF('careerDialog').show()" />
-					<p:commandButton process="careerDataTable" value="Delete"
-						oncomplete="PF('careerDialog').show()"
-						update="careerDataTable" />
-				</f:facet>
+				
+			
 			</p:dataTable>
 		</div>
 		<p:dialog header="career" widgetVar="careerDialog"
