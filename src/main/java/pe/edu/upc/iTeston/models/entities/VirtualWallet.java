@@ -19,4 +19,30 @@ public class VirtualWallet {
 	
 	@OneToOne(mappedBy= "virtualWallet" )
 	private Teacher teacher;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Float getSaldo() {
+		return saldo;
+	}
+
+	public void setSaldo(Float saldo) {
+		this.saldo = saldo;
+	}
+
+	public Teacher getTeacher() {
+		return teacher;
+	}
+
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
+	}
+	
+	
 }

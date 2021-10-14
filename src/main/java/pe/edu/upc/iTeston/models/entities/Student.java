@@ -31,6 +31,96 @@ public class Student {
 	@Column(name = "password_student", length = 30)
 	private String password;
 	
+	public String getId() {
+		return id;
+	}
+
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getLastname() {
+		return lastname;
+	}
+
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	public Freemium getFreemium() {
+		return freemium;
+	}
+
+
+	public void setFreemium(Freemium freemium) {
+		this.freemium = freemium;
+	}
+
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+
+	public List<Approval> getApprovals() {
+		return approvals;
+	}
+
+
+	public void setApprovals(List<Approval> approvals) {
+		this.approvals = approvals;
+	}
+
+
+	public List<Subscription> getSubscriptions() {
+		return subscriptions;
+	}
+
+
+	public void setSubscriptions(List<Subscription> subscriptions) {
+		this.subscriptions = subscriptions;
+	}
+
+
 	@OneToOne
 	@JoinColumn(name ="id_freemium", nullable = true)
 	private Freemium freemium;

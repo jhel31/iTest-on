@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+    	<title>QuestionBank CRUD</title>
+    </h:head>
+
+    <h:body>
+    	<h:form>
+    <div class="card">
+        <p:dataTable var="questionBank" value="#{questionBankView.questionBanks}">
+            <p:column headerText="Id">
+                <h:outputText value="#{questionBank.id}" />
+            </p:column>
+            <p:column headerText="Teacher">
+                <h:outputText value="#{questionBank.teacher.id}" />
+            </p:column>
+
+            <p:column headerText="Description">
+                <h:outputText value="#{questionBank.description}" />
+            </p:column>
+
+        </p:dataTable>
+    </div>
+</h:form>
+    </h:body>
+</html>
