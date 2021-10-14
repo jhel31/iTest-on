@@ -15,13 +15,13 @@ import javax.persistence.Table;
 
 public class Subscription {
 	@Id
-	@Column(name = "id_subscription", columnDefinition="NUMERIC(40)")
+	@Column(name = "id_subscription",length = 10, nullable = false)
 	private String id;
 	
-	@Column(name = "issueDate_subcription", length = 9, nullable = false)
+	@Column(name = "issueDate_subcription", length = 20, nullable = false)
 	private Date issueDate;
 	
-	@Column(name = "expire_subcription", length = 9, nullable = false)
+	@Column(name = "expire_subcription", length = 20, nullable = false)
 	private String expire;
 	
 	@ManyToOne
