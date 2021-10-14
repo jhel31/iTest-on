@@ -23,15 +23,15 @@
 				</p:column>
 			
 				<p:column headerText="University">
-					<h:outputText value="#{quiz.university}" />
+					<h:outputText value="#{quiz.university.id}" />
 				</p:column>
 				
 				<p:column headerText="Subscription">
-					<h:outputText value="#{quiz.subscription}" />
+					<h:outputText value="#{quiz.subscription.id}" />
 				</p:column>
 				
 				<p:column headerText="Freemium">
-					<h:outputText value="#{quiz.freemium}" />
+					<h:outputText value="#{quiz.freemium.id}" />
 				</p:column>
 				
 			<p:column>
@@ -63,22 +63,24 @@
 			responsive="true">
 			<p:outputPanel id="quiz-content" class="ui-fluid">
 					<div class="p-field">
-					
 					<p:outputLabel for="Id">Id</p:outputLabel>
 					<p:inputText id ="Id" value="#{quizView.quizSelected.id}" required="true"/>
-					
+					</div>	
+					<div class="p-field">
 					<p:outputLabel for="Nota">Nota</p:outputLabel>
 					<p:inputText id ="Nota" value="#{quizView.quizSelected.nota}" required="true"/>
-					
+					</div>	
+					<div class="p-field">
 					<p:outputLabel for="University">University</p:outputLabel>
-					<p:inputText id ="University" value="#{quizView.quizSelected.university}" required="true"/>
-					
+					<p:inputText id ="University" value="#{quizView.quizSelected.university.id}" required="true"/>
+					</div>	
+					<div class="p-field">
 					<p:outputLabel for="subscription">Subscription</p:outputLabel>
-					<p:inputText id ="subscription" value="#{quizView.quizSelected.subscription}" required="true"/>
-					
+					<p:inputText id ="subscription" value="#{quizView.quizSelected.subscription.id}" required="true"/>
+					</div>	
+					<div class="p-field">
 					<p:outputLabel for="freemium">Freemium</p:outputLabel>
-					<p:inputText id ="freemium" value="#{quizView.quizSelected.freemium}" required="true"/>
-					
+					<p:inputText id ="freemium" value="#{quizView.quizSelected.freemium.id}" required="true"/>
 					</div>	
 					
 					

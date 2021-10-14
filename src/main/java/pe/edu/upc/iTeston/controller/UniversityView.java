@@ -65,6 +65,7 @@ public class UniversityView implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		init();
 		PrimeFaces.current().executeScript("PF('universityDialog').hide()");
         PrimeFaces.current().ajax().update("universityDataTable");
 	}

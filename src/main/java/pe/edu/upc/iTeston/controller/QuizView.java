@@ -58,8 +58,8 @@ public class QuizView implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		PrimeFaces.current().executeScript("PF('careerDialog').hide()");
-        PrimeFaces.current().ajax().update("careerDataTable");
+		PrimeFaces.current().executeScript("PF('quizDialog').hide()");
+        PrimeFaces.current().ajax().update("quizDataTable");
 	
 	}
 	

@@ -13,6 +13,21 @@
 			
 					value="#{universityDetailView.universitiesDetails}"
 					selection="#{universitiesDetailsSelected}" rowKey="#{universityDetail.id}">
+					
+					
+					<p:column headerText="Id">
+					<h:outputText value="#{universityDetail.id}" />
+				</p:column>
+
+				<p:column headerText="University">
+					<h:outputText value="#{universityDetail.university.name}" />
+				</p:column>
+				
+		
+				
+				<p:column headerText="Career">
+					<h:outputText value="#{universityDetail.career.name}" />
+				</p:column>	
 			
 				</p:dataTable>
 			</div>

@@ -18,19 +18,25 @@ public class Subscription {
 	@Column(name = "id_subscription",length = 10, nullable = false)
 	private String id;
 	
-<<<<<<< HEAD
 	@Column(name = "issueDate_subcription", length = 40, nullable = false)
 	private Date issueDate;
 	
 	@Column(name = "expire_subcription", length = 40, nullable = false)
-
-=======
-	@Column(name = "issueDate_subcription", length = 20, nullable = false)
-	private Date issueDate;
-	
-	@Column(name = "expire_subcription", length = 20, nullable = false)
->>>>>>> branch--Joshua-
 	private String expire;
+	
+	@ManyToOne
+	@JoinColumn(name="id_paymentMethods")
+	private PaymentMethod paymentMethod;
+	
+	@ManyToOne
+	@JoinColumn(name="id_student", nullable = false)
+	private Student student;
+	
+	@OneToMany(mappedBy = "subscription")
+	private List<Quiz> quizzes;
+	
+	@Column(name = "plan_price" )
+	private float plan;
 	
 	public String getId() {
 		return id;
@@ -88,19 +94,6 @@ public class Subscription {
 		this.plan = plan;
 	}
 
-	@ManyToOne
-	@JoinColumn(name="id_paymentMethods")
-	private PaymentMethod paymentMethod;
-	
-	@ManyToOne
-	@JoinColumn(name="id_student", nullable = false)
-	private Student student;
-	
-	@OneToMany(mappedBy = "subscription")
-	private List<Quiz> quizzes;
-	
-	@Column(name = "plan_price" )
-	private float plan;
 	
 }
 
