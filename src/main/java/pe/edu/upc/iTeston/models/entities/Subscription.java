@@ -18,18 +18,13 @@ public class Subscription {
 	@Column(name = "id_subscription",length = 10, nullable = false)
 	private String id;
 	
-<<<<<<< HEAD
+
 	@Column(name = "issueDate_subcription", length = 40, nullable = false)
 	private Date issueDate;
 	
 	@Column(name = "expire_subcription", length = 40, nullable = false)
 
-=======
-	@Column(name = "issueDate_subcription", length = 20, nullable = false)
-	private Date issueDate;
-	
-	@Column(name = "expire_subcription", length = 20, nullable = false)
->>>>>>> branch--Joshua-
+
 	private String expire;
 	
 	public String getId() {
