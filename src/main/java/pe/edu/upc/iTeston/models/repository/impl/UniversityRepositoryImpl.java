@@ -1,6 +1,5 @@
 package pe.edu.upc.iTeston.models.repository.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,7 +7,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 
 import pe.edu.upc.iTeston.models.entities.University;
 import pe.edu.upc.iTeston.models.repository.UniversityRepository;
@@ -37,16 +35,10 @@ public class UniversityRepositoryImpl implements UniversityRepository{
 	}
 
 	@Override
-	public List<University> nameUniversity(String name) throws Exception {
-		// TODO Auto-generated method stub
-		return findByField("name_university",name);
+	public List<University> findByName(String name) throws Exception {
+		String jpql = "SELECT u FROM University u WHERE u.name LIKE '%" + name + "%'" ;	
+		System.out.println(jpql);
+		return findAll(University.class, jpql);
 	}
-	public List<University> findByField(String field, String value) throws Exception {
-
-		List<University> Universities = new ArrayList<University>();
-		String jpql = "SELECT uni FROM University uni WHERE uni." + field + "=" + value + "'";
-		TypedQuery<University> typedQuery = getEntityManager().createQuery(jpql, University.class);
-		Universities =  typedQuery.getResultList();
-		return Universities;
-	}
+	
 }

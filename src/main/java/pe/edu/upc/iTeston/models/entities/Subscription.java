@@ -1,6 +1,7 @@
 package pe.edu.upc.iTeston.models.entities;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,16 +16,46 @@ import javax.persistence.Table;
 
 public class Subscription {
 	@Id
-	@Column(name = "id_subscription", columnDefinition="NUMERIC(40)")
+	@Column(name = "id_subscription",length = 10, nullable = false)
 	private String id;
 	
 	@Column(name = "issueDate_subcription", length = 40, nullable = false)
 	private Date issueDate;
 	
 	@Column(name = "expire_subcription", length = 40, nullable = false)
-
 	private String expire;
 	
+	@ManyToOne
+	@JoinColumn(name="id_paymentMethods")
+	private PaymentMethod paymentMethod;
+	
+	@ManyToOne
+	@JoinColumn(name="id_student", nullable = false)
+	private Student student;
+	
+	@OneToMany(mappedBy = "subscription")
+	private List<Quiz> quizzes;
+	
+	@Column(name = "plan_price" )
+	private float plan;
+	
+	public Subscription() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Subscription(String id, Date issueDate, String expire, PaymentMethod paymentMethod, Student student,
+			List<Quiz> quizzes, float plan) {
+		super();
+		this.id = id;
+		this.issueDate = issueDate;
+		this.expire = expire;
+		this.paymentMethod = paymentMethod;
+		this.student = student;
+		this.quizzes = quizzes;
+		this.plan = plan;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -81,19 +112,26 @@ public class Subscription {
 		this.plan = plan;
 	}
 
-	@ManyToOne
-	@JoinColumn(name="id_paymentMethods")
-	private PaymentMethod paymentMethod;
-	
-	@ManyToOne
-	@JoinColumn(name="id_student", nullable = false)
-	private Student student;
-	
-	@OneToMany(mappedBy = "subscription")
-	private List<Quiz> quizzes;
-	
-	@Column(name = "plan_price" )
-	private float plan;
+	@Override
+	public int hashCode() {
+		return Objects.hash(expire, id, issueDate, paymentMethod, plan, quizzes, student);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Subscription other = (Subscription) obj;
+		return Objects.equals(expire, other.expire) && Objects.equals(id, other.id)
+				&& Objects.equals(issueDate, other.issueDate) && Objects.equals(paymentMethod, other.paymentMethod)
+				&& Float.floatToIntBits(plan) == Float.floatToIntBits(other.plan)
+				&& Objects.equals(quizzes, other.quizzes) && Objects.equals(student, other.student);
+	}
+
 	
 }
 

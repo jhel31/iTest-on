@@ -1,7 +1,6 @@
 package pe.edu.upc.iTeston.controller;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,15 +19,15 @@ import pe.edu.upc.iTeston.models.entities.Freemium;
 public class FreemiumView implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Freemium freemiumSelected;
 	private List<Freemium> freemiums;
 	private List<Freemium> freemiumsSelected;
 	private Freemium freemiumSearch;
-	
+
 	@Inject
 	private FreemiumService freemiumService;
-	
+
 	@PostConstruct
 	public void init() {
 		freemiumsSelected = new ArrayList<>();
@@ -39,18 +38,17 @@ public class FreemiumView implements Serializable {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void createNew() {
 		freemiumSelected = new Freemium();
 	}
-	
+
 	public void saveFreemium() {
 		try {
 			if (freemiumSelected.getId() == null) {
 				freemiumService.create(freemiumSelected);
 				freemiums.add(freemiumSelected);
-			}
-			else {
+			} else {
 				freemiumService.update(freemiumSelected);
 			}
 		} catch (Exception e) {
@@ -59,7 +57,7 @@ public class FreemiumView implements Serializable {
 		}
 		PrimeFaces.current().executeScript("PF('freemiumDialog').hide()");
 		PrimeFaces.current().ajax().update("freemiumDataTable");
-	
+
 	}
 
 }
