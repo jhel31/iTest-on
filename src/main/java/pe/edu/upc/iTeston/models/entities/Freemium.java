@@ -20,4 +20,5 @@ public class Freemium {
 	
 	@OneToOne(mappedBy = "freemium")
 	private Student students;
+	
 }

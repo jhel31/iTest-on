@@ -8,6 +8,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+
 import pe.edu.upc.iTeston.models.entities.Teacher;
 import pe.edu.upc.iTeston.models.repository.TeacherRepository;
 @Named
@@ -34,5 +35,10 @@ public class TeacherRepositoryImpl implements TeacherRepository {
 		String jpql = "SELECT teacher FROM Teacher teacher ";
 		return findAll(Teacher.class,jpql);
 	}
-
+	@Override
+	public List<Teacher> findByName(String name) throws Exception {
+		String jpql ="SELECT r FROM Teacher r WHERE r.name LIKE '%" + name +"%'";
+		System.out.print(jpql);
+		return findAll(Teacher.class,jpql);
+	}
 }

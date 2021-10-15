@@ -10,12 +10,29 @@
     <h:body>
   	 <h:form>
     <div class="card">
-        <p:dataTable id="virtualWalletDataTable" var="virtualWallet" value="#{virtualWalletView.virtualWallets}" 
-         selection="#{virtualWalletView.virtualWalletsSelected}" rowKey ="#{virtualWallet.id}"
-        paginator="true" paginatorPosition="bottom" rows="9" alowUnsorting="true">
-          <p:column selectionMode="Multiple" style="width:16px;text-align:center"/>  
-           
-           
+    <p:growl id="messages" showDetail="true" />
+        <p:dataTable id="virtualWalletDataTable" widgetVar="virtualWalletDataTableWidget" var="virtualWallet" value="#{virtualWalletView.virtualWallets}" 
+         selection="#{virtualWalletView.virtualWalletsSelected}" reflow="true" 
+         rowKey ="#{virtualWallet.id}" paginator="true" paginatorPosition="bottom" rows="3" 
+         sortMode="single" alowUnsorting="true">
+                    
+           <f:facet name="header">
+					<div class="products-table-header">
+						<span style="font-weight: bold">VIRTUALWALLETS</span> 
+						
+						<span class="filter-container ui-input-icon-left"> 
+							<i class="pi pi-search"></i> 
+							<p:inputText id="globalSearch" value="#{virtualWalletView.virtualWalletSearch.saldo}" placeholder="Search" />
+						</span>
+						
+						<p:commandButton value="Search" icon="pi pi-check" actionListener="#{virtualWalletView.searchVirtualWallet()}" 
+							update="virtualWalletDataTable" process="globalSearch @this"/>
+						<p:commandButton value="Clean" icon="pi pi-check" actionListener="#{virtualWalletView.getAllVirtualWallet()}" 
+							update="virtualWalletDataTable" process=" @this"/>
+					</div>
+				</f:facet>
+				
+            		<p:column selectionMode="Multiple" style="width:16px;text-align:center"/>	
             <p:column headerText="Id" sortBy="#{virtualWallet.id}">
                 <h:outputText value="#{virtualWallet.id}"  />
             </p:column>
@@ -25,10 +42,20 @@
             </p:column>    
             
             <p:column>
-            	<p:commandButton icon="pi pi-pencil" 
-            	styleClass="edit-button rounded-button ui-button-success"/> 
+            	
+            	<p:commandButton icon="pi pi-pencil" oncomplete="PF('virtualWalletDialog').show()"
+            	styleClass="edit-button rounded-button ui-button-success"
+            	update="@form:virtualWallet-content" process="@this">
+            		<f:setPropertyActionListener value="#{virtualWallet}" target="#{virtualWalletView.virtualWalletSelected}"/>
+                   		<p:resetInput target="@form:virtualWallet-content"/>
+            	 </p:commandButton>
+            	 
             	<p:commandButton icon="pi pi-trash" style="margin-left:10px"
-            	styleClass="edit-button rounded-button ui-button-danger" /> 
+            	styleClass="edit-button rounded-button ui-button-danger" process="@this"
+            	oncomplete="PF('deleteDialog').show()" > 
+            	<f:setPropertyActionListener value="#{virtualWallet}" target="#{virtualWalletView.virtualWalletSelected}"/>
+                </p:commandButton>  
+                	
             </p:column>
             
             
@@ -36,57 +63,53 @@
             <p:ajax event="rowUnselectCheckbox" update="virtualWallet-button-delete virtualWallet-button-edit"/>
             <p:ajax event="toggleSelect" update="virtualWallet-button-delete virtualWallet-button-edit"/>
             
-            
              <f:facet name="footer">
-             
              		<p:commandButton process="virtualWalletDataTable" value="New" icon="pi pi-check"
-            		 actionListener="#{virtualWalletView.createNew}"
-            		 oncomplete="PF('virtualWalletDialog').show()" styleClass="ui-button-raised ui-button-success"/>
-					
-					           		 
-            		 <p:commandButton process="virtualWalletDataTable" value="View" icon="pi pi-check"
-            		 oncomplete="PF('virtualWalletDialog').show()" styleClass="ui-button-raised ui-button-info"/>
+            		 actionListener="#{virtualWalletView.createNew}" update="@form:virtualWallet-content"
+            		 oncomplete="PF('virtualWalletDialog').show()" styleClass="ui-button-warning"/>
             		 
             		 <p:commandButton id="virtualWallet-button-edit" process="virtualWalletDataTable" value="Edit" icon="pi pi-check"
-            		 oncomplete="PF('virtualWalletDialog').show()" styleClass="ui-button-raised ui-button-help"
-            		 disabled="#{!virtualWalletView.hasVirtualWalletsSelected()}"/>
+            		 actionListener="#{virtualWalletView.editVirtualWalletSelected()}" update="@form:virtualWallet-content"
+            		 oncomplete="PF('virtualWalletDialog').show()" styleClass="ui-button-help"
+            		 disabled="#{!virtualWalletView.hasVirtualWalletSelected()}"/>
             		 
             		 <p:commandButton id="virtualWallet-button-delete" process="virtualWalletDataTable" value="Delete" icon="pi pi-check"
-            		 oncomplete="PF('virtualWalletDialog').show()" styleClass="ui-button-raised ui-button-danger"
+            		 oncomplete="PF('virtualWalletDialog').show()" styleClass="ui-button-danger"
             		 disabled="#{!virtualWalletView.hasVirtualWalletsSelected()}" update="@this"/>
                                           
-              </f:facet>
-             
+              </f:facet>     
         </p:dataTable>
     </div>
     	<p:dialog header="VirtualWallet" widgetVar="virtualWalletDialog" modal="true" showEffect="fade" 
     	 responsive="true" minHeight="300" width="300">
-    	 
-    	<p:outputPanel id="virtualwallet-content" class="ui-fluid">
-    		
+    	<p:outputPanel id="virtualWallet-content" class="ui-fluid">	
            	<div class="p-field">
            	
            		<p:outputLabel for="id">Id</p:outputLabel>
     			<p:inputText id="id" value="#{virtualWalletView.virtualWalletSelected.id}" required="true"/>
-    			
+    		</div>
+    		
+    		<div class="p-field">
     			<p:outputLabel for="saldo">Saldo</p:outputLabel>
     			<p:inputText id="saldo" value="#{virtualWalletView.virtualWalletSelected.saldo}" required="true"/>
-    			
-    			
     		</div>
     		
        	</p:outputPanel>
     		<f:facet name="footer">
                 <p:commandButton value="Save" icon="pi pi-check" actionListener="#{virtualWalletView.saveVirtualWalletSelected()}"
-                                 update="virtualwallet-content virtualWalletDataTable" process="virtualwallet-content @this"/>
+                                 update="virtualWallet-content virtualWalletDataTable" process="virtualWallet-content @this"/>
                 <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('virtualWalletDialog').hide()"
                                  class="ui-button-secondary"/>
-          	</f:facet>
-    			
-    			
+          	</f:facet>	
     	</p:dialog>
-    
-    
+    	<p:confirmDialog id="prueba" widgetVar="deleteDialog" showEffect="fade" width="300"
+                         message="Delete the item?" header="Confirm" severity="warn">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{virtualWalletView.deleteVirtualWallet()}"
+                             process="@this" oncomplete="PF('deleteDialog').hide()"
+                             update="virtualWalletDataTable  @form:messages"/>
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                             onclick="PF('deleteDialog').hide()"/>
+        </p:confirmDialog>
     
 </h:form>
     </h:body>

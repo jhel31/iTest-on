@@ -1,5 +1,7 @@
 package pe.edu.upc.iTeston.business.crud.impl;
 
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,6 +23,12 @@ public class TeacherServiceImpl implements TeacherService {
 	public JpaRepository<Teacher, String> getJpaRepository() {
 		
 		return teacherRepository;
+	}
+	
+	@Override
+	public List<Teacher>findByName(String name) throws Exception {
+		
+		return teacherRepository.findByName(name);
 	}
 
 }

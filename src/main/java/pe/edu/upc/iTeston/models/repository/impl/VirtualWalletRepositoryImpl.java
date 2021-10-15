@@ -8,6 +8,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+
 import pe.edu.upc.iTeston.models.entities.VirtualWallet;
 import pe.edu.upc.iTeston.models.repository.VirtualWalletRepository;
 @Named
@@ -34,5 +35,12 @@ public class VirtualWalletRepositoryImpl implements VirtualWalletRepository {
 		String jpql = "SELECT virtualWallet FROM VirtualWallet virtualWallet ";
 		return findAll(VirtualWallet.class,jpql);
 	}
-
+	
+	@Override
+	public List<VirtualWallet> findBySaldo(Float saldo) throws Exception{
+		String jpql ="SELECT r FROM VirtualWallet r WHERE r.saldo LIKE '%" + saldo +"%'";
+		System.out.print(jpql);
+		return findAll(VirtualWallet.class,jpql);
+	}
+	
 }

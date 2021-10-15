@@ -10,38 +10,143 @@
     <h:body>
   			<h:form>
     <div class="card">
-        <p:dataTable var="teacher" value="#{teacherView.teachers}">
-            <p:column headerText="Id">
+        <p:growl id="messages" showDetail="true" />
+        <p:dataTable id ="teacherDataTable" widgetVar="teacherDataTableWidget" var="teacher" value="#{teacherView.teachers}"
+        		 selection="#{teacherView.teachersSelected}"  reflow="true"
+        		 rowKey ="#{teacher.id}" paginator="true" paginatorPosition="bottom" rows="3"
+        		 sortMode="single" alowUnsorting="true">
+
+				<f:facet name="header">
+					<div class="products-table-header">
+						<span style="font-weight: bold">TEACHERS</span> 
+						
+						<span class="filter-container ui-input-icon-left"> 
+							<i class="pi pi-search"></i> 
+							<p:inputText id="globalSearch" value="#{teacherView.teacherSearch.name}" placeholder="Search" />
+						</span>
+						
+						<p:commandButton value="Search" icon="pi pi-check" actionListener="#{teacherView.searchTeacher()}" 
+							update="teacherDataTable" process="globalSearch @this"/>
+						<p:commandButton value="Clean" icon="pi pi-check" actionListener="#{teacherView.getAllTeacher()}" 
+							update="teacherDataTable" process=" @this"/>
+					</div>
+				</f:facet>
+				
+			<p:column selectionMode="Multiple" style="width:16px;text-align:center"/>
+            <p:column headerText="Id" sortBy="#{teacher.id}">
                 <h:outputText value="#{teacher.id}" />
             </p:column>
-
-            <p:column headerText="Name">
+            <p:column headerText="Name" sortBy="#{teacher.name}">
                 <h:outputText value="#{teacher.name}" />
             </p:column>
-            
-            <p:column headerText="LastName">
+            <p:column headerText="LastName" sortBy="#{teacher.lastname}">
                 <h:outputText value="#{teacher.lastname}" />
             </p:column>
             
-            <p:column headerText="Email">
+            <p:column headerText="Email" sortBy="#{teacher.email}">
                 <h:outputText value="#{teacher.email}" />
             </p:column>
             
-            <p:column headerText="Password">
+            <p:column headerText="Password" sortBy="#{teacher.password}">
                 <h:outputText value="#{teacher.password}" />
             </p:column>
             
-            <p:column headerText="DocumentExperience">
+            <p:column headerText="DocumentExperience" sortBy="#{teacher.documentExperience}">
                 <h:outputText value="#{teacher.documentExperience}" />
             </p:column>
             
-            <p:column headerText="CourseId">
+            <p:column headerText="CourseId" sortBy="#{teacher.course}">
                 <h:outputText value="#{teacher.course}" />
             </p:column>
             
-			
-         </p:dataTable>
+            <p:column>
+            
+            	<p:commandButton icon="pi pi-pencil" oncomplete="PF('teacherDialog').show()"
+            		styleClass="edit-button rounded-button ui-button-success"
+            		update="@form:teacher-content" process="@this">
+            		<f:setPropertyActionListener value="#{teacher}" target="#{teacherView.teacherSelected}"/>
+                   		<p:resetInput target="@form:teacher-content"/>
+            	 </p:commandButton>
+            	 
+            	<p:commandButton icon="pi pi-trash" style="margin-left:10px"
+            	styleClass="edit-button rounded-button ui-button-danger" process="@this"
+            	 oncomplete="PF('deleteDialog').show()" > 
+            	<f:setPropertyActionListener value="#{teacher}" target="#{teacherView.teacherSelected}"/>
+                </p:commandButton>  		
+            	 
+            </p:column>
+            
+            <p:ajax event="rowSelectCheckbox" update="teacher-button-delete teacher-button-edit"/>
+            <p:ajax event="rowUnselectCheckbox" update="teacher-button-delete teacher-button-edit"/>
+            <p:ajax event="toggleSelect" update="teacher-button-delete teacher-button-edit"/>
+            
+            
+            <f:facet name="footer">
+            	<p:commandButton process="teacherDataTable" value="New" icon="pi pi-check"
+            	actionListener="#{teacherView.createNew}" update="@form:teacher-content"
+            		oncomplete="PF('teacherDialog').show()" styleClass="ui-button-warning"/>
+            		
+            	<p:commandButton id="teacher-button-edit" process="teacherDataTable" value="Edit" icon="pi pi-check"
+            	actionListener="#{teacherView.editTeacherSelected()}" update="@form:teacher-content"	
+            		oncomplete="PF('teacherDialog').show()" styleClass="ui-button-help"
+            		disabled="#{!teacherView.hasTeacherSelected()}"/>
+            			
+            	<p:commandButton id="teacher-button-delete" process="teacherDataTable" value="Delete" icon="pi pi-check"
+            		oncomplete="PF('teacherDialog').show()" styleClass="ui-button-danger"
+            		disabled="#{!teacherView.hasTeachersSelected()}" update="@this"/>
+            		
+            </f:facet> 
+        </p:dataTable>
     </div>
-</h:form>
-    </h:body>
+    	<p:dialog header="Teacher" widgetVar="teacherDialog" modal="true" showEffect="fade" 
+    	 responsive="true" minHeight="300" width="300">
+    	<p:outputPanel id="teacher-content" class="ui-fluid">
+            <div class="p-field">
+           		<p:outputLabel for="id">Id</p:outputLabel>
+    			<p:inputText id="id" value="#{teacherView.teacherSelected.id}" required="true"/>
+    		</div>
+    		<div class="p-field">
+    			<p:outputLabel for="name">Name</p:outputLabel>
+    			<p:inputText id="name" value="#{teacherView.teacherSelected.name}" required="true"/>
+    		</div>
+    		<div class="p-field">
+    			<p:outputLabel for="lastname">LastName</p:outputLabel>
+    			<p:inputText id="lastname" value="#{teacherView.teacherSelected.lastname}" required="true"/>
+    		</div>
+    		<div class="p-field">
+    			<p:outputLabel for="email">Email</p:outputLabel>
+    			<p:inputText id="email" value="#{teacherView.teacherSelected.email}" required="true"/>
+    		</div>
+    		<div class="p-field">
+    			<p:outputLabel for="password">Password</p:outputLabel>
+    			<p:inputText id="password" value="#{teacherView.teacherSelected.password}" required="true"/>
+    		</div>
+    		<div class="p-field">
+    			<p:outputLabel for="documentExperience">DocumentExperience</p:outputLabel>
+    			<p:inputText id="documentExperience" value="#{teacherView.teacherSelected.documentExperience}" required="true"/>
+    		</div>
+    		<div class="p-field">
+    			<p:outputLabel for="course">Course</p:outputLabel>
+    			<p:inputText id="course" value="#{teacherView.teacherSelected.course}" required="true"/>
+    		</div>
+    		
+       	</p:outputPanel>
+    		<f:facet name="footer">
+                <p:commandButton value="Save" icon="pi pi-check" actionListener="#{teacherView.saveTeacherSelected()}"
+                                 update="teacher-content teacherDataTable" process="teacher-content @this"/>
+                <p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('teacherDialog').hide()"
+                                 class="ui-button-secondary"/>
+          	</f:facet>
+    	</p:dialog>
+    	<p:confirmDialog id="prueba" widgetVar="deleteDialog" showEffect="fade" width="300"
+                         message="Delete the item?" header="Confirm" severity="warn">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{teacherView.deleteTeacher()}"
+                             process="@this" oncomplete="PF('deleteDialog').hide()"
+                             update="teacherDataTable  @form:messages"/>
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                             onclick="PF('deleteDialog').hide()"/>
+        </p:confirmDialog>
+    	
+	</h:form>
+	</h:body>
 </html>

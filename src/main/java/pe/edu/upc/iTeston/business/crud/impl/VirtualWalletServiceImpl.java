@@ -1,5 +1,7 @@
 package pe.edu.upc.iTeston.business.crud.impl;
 
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,5 +21,12 @@ public class VirtualWalletServiceImpl implements VirtualWalletService {
 		
 		return virtualWalletRepository;
 	}
+	
+	@Override
+	public List<VirtualWallet>findBySaldo(Float saldo) throws Exception {
+		
+		return virtualWalletRepository.findBySaldo(saldo);
+	}
+
 
 }
