@@ -1,0 +1,137 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Approval Crud</title>
+</h:head>
+
+<h:body>
+	<h:form>
+		<div class="card">
+			<p:growl id="messages" showDetail="true" />
+			<p:dataTable id="approvalDataTable"
+				widgetvar="approvalDataTableWidget" var="approval"
+				value="#{approvalView.approvals}"
+				selection="#{approvalView.approvalSelected}" reflow="true"
+				rowkey="#{approval.id}" paginator="true" paginatorPosition="bottom"
+				rows="3" sortMode="single" allowUnsorting="true">
+
+				<f:facet name="header">
+					<div class="table-header">
+						<span style="font-weight: bold">APPROVALS</span> <span
+							class="filter-container ui-input-icon-left"> <i
+							class="pi pi-search"></i> <p:inputText id="globalSearch"
+								value="#{approvalView.approvalSearch.id}" placeholder="Search" />
+						</span>
+						<p:commandButton value="Search" icon="pi pi-check"
+							actionListener="#{approvalView.approvalSearch}"
+							update="approvalDataTable" process="globalSearch @this" />
+						<p:commandButton value="Clean" icon="pi pi-check"
+							actionListener="#{approvalView.getAllApproval}"
+							update="approvalDataTable" process="@this" />
+
+					</div>
+				</f:facet>
+				<p:column selectionMode="Multiple"
+					style="width:16px;text-align:center" />
+				<p:column headerText="Id" sortBy="#{approval.id}">
+					<h:outputText value="#{approval.id}" />
+				</p:column>
+				<p:column headerText="Level" sortBy="#{approval.approvalLevel}">
+					<h:outputText value="#{approval.approvalLevel}" />
+				</p:column>
+				<p:column headerText="Date" sortBy="#{approval.approvalDate}">
+					<h:outputText value="#{approval.approvalDate}" />
+				</p:column>
+
+				<p:column>
+					<p:commandButton icon="pi pi-pencil"
+						oncomplete="PF('approvalDialog').show()"
+						styleClass="edit-button rounded-button ui-button-success"
+						update="@form:approval-content" process="@this">
+						<f:setPropertyActionListener value="#{region}"
+							target="#{approvalView.approvalSelected}" />
+						<p:resetInput target="@form:approval-content" />
+					</p:commandButton>
+					<p:commandButton icon="pi pi-trash" style="margin-left: 10px;"
+						styleClass="rounded-button ui-button-danger" process="@this"
+						oncomplete="PF('deleteDialog').show()">
+						<f:setPropertyActionListener value="#{approval}"
+							target="#{approvalView.approvalSelected}" />
+					</p:commandButton>
+				</p:column>
+				<p:ajax event="rowSelectCheckbox"
+					update="approval-button-delete approval-button-edit " />
+				<p:ajax event="rowUnselectCheckbox"
+					update="approval-button-delete approval-button-edit" />
+				<p:ajax event="toggleSelect"
+					update="approval-button-delete approval-button-edit" />
+				<f:facet name="footer">
+					<p:commandButton process="approvalDataTable" value="New"
+						icon="pi pi-check" actionListener="#{approvalView.createNew}"
+						update="@form:approval-content"
+						oncomplete="PF('approvalDialog').show()"
+						styleClass="ui-button-raised ui-button-success" />
+
+					<p:commandButton id="approval-button-edit"
+						process="approvalDataTable" value="Edit" icon="pi pi-check"
+						actionListener="#{approvalView.editApprovalSelected}"
+						update="@form:approval-content"
+						oncomplete="PF('approvalDialog').show()"
+						styleClass="ui-button-raised ui-button-help"
+						disabled="#{!approvalView.hasApprovalsSelected()}" />
+
+					<p:commandButton id="approval-button-delete"
+						process="approvalDataTable" value="Delete" icon="pi pi-check"
+						oncomplete="PF('approvalDialog').show()"
+						styleClass="ui-button-raised ui-button-danger"
+						disabled="#{!approvalView.hasApprovalsSelected()}"
+						update="approvalDataTable" />
+				</f:facet>
+			</p:dataTable>
+		</div>
+
+		<p:dialog header="Approval" widgetVar="approvalDialog" modal="true"
+			showEffect="fade" minHeight="300" width="300" responsive="true">
+			<p:outputPanel id="approval-content" class="ui-fluid">
+				<div class="p-field">
+				
+					<p:outputLabel for="level">Level</p:outputLabel>
+					<p:inputText id="level" value="#{approvalView.approvalSelected.approvalLevel}"
+						required="true" />
+						
+					<p:outputLabel for="date">Date</p:outputLabel>
+					<p:inputText id="date" value="#{approvalView.approvalSelected.approvalDate}"
+						required="true" />
+				</div>
+				
+			</p:outputPanel>
+			<f:facet name="footer">
+				<p:commandButton value="Save" icon="pi pi-check"
+					actionListener="#{approvalView.saveApproval}"
+					update="approval-content approvalDataTable"
+					process="approval-content @this" />
+				<p:commandButton value="Cancel" icon="pi pi-times"
+					onclick="PF('regionDialog').hide()" class="ui-button-secondary" />
+			</f:facet>
+		</p:dialog>
+
+		<p:confirmDialog id="prueba" widgetVar="deleteDialog"
+			showEffect="fade" width="300" message="Delete the item?"
+			header="Confirm" severity="warn">
+			<p:commandButton value="Yes" icon="pi pi-check"
+				actionListener="#{approvalView.deleteApproval}" process="@this"
+				oncomplete="PF('deleteDialog').hide()"
+				update="approvalDataTable @form:messages" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-button-secondary" icon="pi pi-times"
+				onclick="PF('deleteDialog').hide()" />
+		</p:confirmDialog>
+	</h:form>
+
+
+
+</h:body>
+</html>
