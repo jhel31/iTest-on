@@ -22,8 +22,8 @@ public class UniversityServiceImpl implements UniversityService{
 	}
 
 	@Override
-	public List<University> nameUniversity(String name) throws Exception {
-		return universityRepository.nameUniversity(name);
+	public List<University> findByName(String name) throws Exception {
+		return universityRepository.findByName(name);
 	}
 
 }

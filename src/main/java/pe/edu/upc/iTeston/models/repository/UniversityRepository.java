@@ -6,6 +6,6 @@ import pe.edu.upc.iTeston.models.entities.University;
 
 public interface UniversityRepository extends JpaRepository<University, String> {
 
-	List<University>nameUniversity(String name)throws Exception;
+	List<University>findByName(String name)throws Exception;
 	
 }

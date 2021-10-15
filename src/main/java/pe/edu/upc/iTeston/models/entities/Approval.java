@@ -33,4 +33,30 @@ public class Approval {
 	@Column(name="date_approval")
 	@Temporal(TemporalType.DATE)
 	private Date approvalDate;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Integer getApprovalLevel() {
+		return approvalLevel;
+	}
+
+	public void setApprovalLevel(Integer approvalLevel) {
+		this.approvalLevel = approvalLevel;
+	}
+
+	public Date getApprovalDate() {
+		return approvalDate;
+	}
+
+	public void setApprovalDate(Date approvalDate) {
+		this.approvalDate = approvalDate;
+	}
+	
+	
 }

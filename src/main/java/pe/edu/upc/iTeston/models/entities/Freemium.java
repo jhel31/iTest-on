@@ -20,5 +20,28 @@ public class Freemium {
 	
 	@OneToOne(mappedBy = "freemium")
 	private Student students;
-	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public Quiz getQuiz() {
+		return quiz;
+	}
+
+	public void setQuiz(Quiz quiz) {
+		this.quiz = quiz;
+	}
+
+	public Student getStudents() {
+		return students;
+	}
+
+	public void setStudents(Student students) {
+		this.students = students;
+	}
 }
