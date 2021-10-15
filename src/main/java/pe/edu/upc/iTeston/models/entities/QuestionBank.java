@@ -2,6 +2,7 @@ package pe.edu.upc.iTeston.models.entities;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,33 +21,52 @@ public class QuestionBank {
 	@Id
 	@Column(name = "id_question_bank", length = 8, nullable = false)
 	private String id;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_quiz", nullable = false)
 	private Quiz quiz;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_teacher", nullable = false)
 	private Teacher teacher;
-	
+
 	@Column(name = "description", length = 100)
 	private String description;
-	
+
 	@Column(name = "results")
 	private Integer results;
-	
+
 	@Column(name = "creation_date")
 	@Temporal(TemporalType.DATE)
 	private Date creationDate;
-	
+
 	@OneToMany(mappedBy = "questionBank")
 	private List<Exercise> exercises;
-	
+
 	@OneToMany(mappedBy = "questionBank")
 	private List<Approval> approvals;
-	
+
 	@OneToMany(mappedBy = "questionBank")
 	private List<Comment> comments;
+
+	public QuestionBank() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public QuestionBank(String id, Quiz quiz, Teacher teacher, String description, Integer results, Date creationDate,
+			List<Exercise> exercises, List<Approval> approvals, List<Comment> comments) {
+		super();
+		this.id = id;
+		this.quiz = quiz;
+		this.teacher = teacher;
+		this.description = description;
+		this.results = results;
+		this.creationDate = creationDate;
+		this.exercises = exercises;
+		this.approvals = approvals;
+		this.comments = comments;
+	}
 
 	public String getId() {
 		return id;
@@ -119,8 +139,26 @@ public class QuestionBank {
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
-	
-	
-	
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(approvals, comments, creationDate, description, exercises, id, quiz, results, teacher);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		QuestionBank other = (QuestionBank) obj;
+		return Objects.equals(approvals, other.approvals) && Objects.equals(comments, other.comments)
+				&& Objects.equals(creationDate, other.creationDate) && Objects.equals(description, other.description)
+				&& Objects.equals(exercises, other.exercises) && Objects.equals(id, other.id)
+				&& Objects.equals(quiz, other.quiz) && Objects.equals(results, other.results)
+				&& Objects.equals(teacher, other.teacher);
+	}
+
 }

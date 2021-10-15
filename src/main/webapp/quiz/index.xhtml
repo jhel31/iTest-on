@@ -10,99 +10,113 @@
 
 	<h:form>
 		<div class="card">
-		<p:growl id="messages" showDetail="true"/>
-			<p:dataTable id="quizDataTable" var="quiz" value="#{quizView.quizzes}"
-				selection="#{quizzesSelected}" rowKey="#{quiz.id}">
-			
-			<p:column headerText="Id">
+			<p:growl id="messages" showDetail="true" />
+			<p:dataTable id="quizDataTable" var="quiz"
+				value="#{quizView.quizzes}" selection="#{quizzesSelected}"
+				rowKey="#{quiz.id}">
+
+				<p:column headerText="Id">
 					<h:outputText value="#{quiz.id}" />
 				</p:column>
 
 				<p:column headerText="Nota">
 					<h:outputText value="#{quiz.nota}" />
 				</p:column>
-			
+
 				<p:column headerText="University">
 					<h:outputText value="#{quiz.university.id}" />
 				</p:column>
-				
+
 				<p:column headerText="Subscription">
 					<h:outputText value="#{quiz.subscription.id}" />
 				</p:column>
+
 				
-				<p:column headerText="Freemium">
-					<h:outputText value="#{quiz.freemium.id}" />
+
+				<p:column>
+					<p:commandButton icon="pi pi-pencil"
+						oncomplete="PF('quizDialog').show()"
+						styleClass="edit-button rounded-button ui-button-success"
+						update="@form:quiz-content" process="@this">
+						<f:setPropertyActionListener value="#{quiz}"
+							target="#{quizView.quizSelected}" />
+						<p:resetInput target="@form:quiz-content" />
+					</p:commandButton>
+					<p:commandButton icon="pi pi-trash" style="margin-left: 10px;"
+						styleClass="rounded-button ui-button-danger" process="@this"
+						oncomplete="PF('deleteDialog').show()">
+						<f:setPropertyActionListener value="#{quiz}"
+							target="#{quizView.quizSelected}" />
+					</p:commandButton>
 				</p:column>
-				
-			<p:column>
-	            	<p:commandButton icon="pi pi-pencil" oncomplete="PF('quizDialog').show()"
-	            			styleClass="edit-button rounded-button ui-button-success" 
-	            			update="@form:quiz-content" process="@this">
-	            		<f:setPropertyActionListener value="#{quiz}" target="#{quizView.quizSelected}"/>
-	            		<p:resetInput target="@form:quiz-content"/>
-	            	</p:commandButton>
-	            	<p:commandButton icon="pi pi-trash" style="margin-left: 10px;"
-	            			styleClass="rounded-button ui-button-danger" process="@this"
-	            			oncomplete="PF('deleteDialog').show()">
-	            		<f:setPropertyActionListener value="#{quiz}" target="#{quizView.quizSelected}"/>
-	            	</p:commandButton>
-	            </p:column>
-	            
-			 <f:facet name="footer">
-            	<p:commandButton process="quizDataTable" value="New" icon="pi pi-check" 
-            			actionListener="#{quizView.createNew}" update="@form:quiz-content"
-            			oncomplete="PF('quizDialog').show()" />
-            
-          	 </f:facet>
-          	 
+
+				<f:facet name="footer">
+					<p:commandButton process="quizDataTable" value="New"
+						icon="pi pi-check" actionListener="#{quizView.createNew}"
+						update="@form:quiz-content" oncomplete="PF('quizDialog').show()" />
+
+				</f:facet>
+
 			</p:dataTable>
 		</div>
-		
-		<p:dialog header="quiz" widgetVar="quizDialog"
-			modal="true" showEffect="fade" minHeight="300" width="300"
-			responsive="true">
+
+		<p:dialog header="quiz" widgetVar="quizDialog" modal="true"
+			showEffect="fade" minHeight="300" width="300" responsive="true">
+
 			<p:outputPanel id="quiz-content" class="ui-fluid">
-					<div class="p-field">
+
+				<div class="p-field">
 					<p:outputLabel for="Id">Id</p:outputLabel>
-					<p:inputText id ="Id" value="#{quizView.quizSelected.id}" required="true"/>
-					</div>	
-					<div class="p-field">
+					<p:inputText id="Id" value="#{quizView.quizSelected.id}"
+						required="true" />
+
 					<p:outputLabel for="Nota">Nota</p:outputLabel>
-					<p:inputText id ="Nota" value="#{quizView.quizSelected.nota}" required="true"/>
-					</div>	
-					<div class="p-field">
+				
+					<p:inputText id="Nota" value="#{quizView.quizSelected.nota}"
+						required="true" />
+
 					<p:outputLabel for="University">University</p:outputLabel>
-					<p:inputText id ="University" value="#{quizView.quizSelected.university.id}" required="true"/>
-					</div>	
-					<div class="p-field">
+					<p:selectOneMenu id="University"
+						value="#{quizView.quizSelected.university}"
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItems value="#{quizView.universities}" var="u"
+							itemLabel="#{u.name}" itemValue="#{u}" />
+					</p:selectOneMenu>
+
 					<p:outputLabel for="subscription">Subscription</p:outputLabel>
-					<p:inputText id ="subscription" value="#{quizView.quizSelected.subscription.id}" required="true"/>
-					</div>	
-					<div class="p-field">
-					<p:outputLabel for="freemium">Freemium</p:outputLabel>
-					<p:inputText id ="freemium" value="#{quizView.quizSelected.freemium.id}" required="true"/>
-					</div>	
-					
-					
-					
+					<p:selectOneMenu id="subscription"
+						value="#{quizView.quizSelected.subscription}"
+						converter="omnifaces.SelectItemsConverter">
+						<f:selectItems value="#{quizView.subscriptions}" var="s"
+							itemLabel="#{s.id}" itemValue="#{s}" />
+					</p:selectOneMenu>
+
+				
+
+				</div>
+
 			</p:outputPanel>
 			<f:facet name="footer">
-         	<p:commandButton value="Save" icon="pi pi-check" actionListener="#{quizView.saveQuiz}"
-            		update="quiz-content quizDataTable" process="quiz-content @this"/>
-         	<p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('quizDialog').hide()"
-            		class="ui-button-secondary"/>
-     	</f:facet>
+				<p:commandButton value="Save" icon="pi pi-check"
+					actionListener="#{quizView.saveQuiz}"
+					update="quiz-content quizDataTable" process="quiz-content @this" />
+				<p:commandButton value="Cancel" icon="pi pi-times"
+					onclick="PF('quizDialog').hide()" class="ui-button-secondary" />
+			</f:facet>
 		</p:dialog>
-		
-			<p:confirmDialog id="prueba" widgetVar="deleteDialog" showEffect="fade" width="300"
-		                     message="Delete the item?" header="Confirm" severity="warn">
-		        <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{quizView.deleteQuiz}"
-		                         process="@this" oncomplete="PF('deleteDialog').hide()"
-		                         update="quizDataTable @form:messages" />
-		        <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
-		                         onclick="PF('deleteDialog').hide()"/>
-		    </p:confirmDialog>
-		
+
+		<p:confirmDialog id="prueba" widgetVar="deleteDialog"
+			showEffect="fade" width="300" message="Delete the item?"
+			header="Confirm" severity="warn">
+			<p:commandButton value="Yes" icon="pi pi-check"
+				actionListener="#{quizView.deleteQuiz}" process="@this"
+				oncomplete="PF('deleteDialog').hide()"
+				update="quizDataTable @form:messages" />
+			<p:commandButton value="No" type="button"
+				styleClass="ui-button-secondary" icon="pi pi-times"
+				onclick="PF('deleteDialog').hide()" />
+		</p:confirmDialog>
+
 	</h:form>
 
 </h:body>

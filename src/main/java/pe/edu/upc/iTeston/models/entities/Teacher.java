@@ -1,6 +1,7 @@
 package pe.edu.upc.iTeston.models.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,39 +15,57 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Teachers")
-public class Teacher{
+public class Teacher {
 	@Id
 	@Column(name = "id_teacher", length = 10, nullable = false)
 	private String id;
-	
-	@Column(name = "name_teacher",length= 30, nullable = false)	
+
+	@Column(name = "name_teacher", length = 30, nullable = false)
 	private String name;
-	
-	@Column(name = "lastname_teacher",length= 30, nullable = false)	
+
+	@Column(name = "lastname_teacher", length = 30, nullable = false)
 	private String lastname;
-	
-	@Column(name = "email_teacher",length= 100, nullable = false)	
+
+	@Column(name = "email_teacher", length = 100, nullable = false)
 	private String email;
-	
-	@Column(name = "password",length= 30, nullable = false)	
+
+	@Column(name = "password", length = 30, nullable = false)
 	private String password;
-	
-	@Column(name = "document_experience",length= 30, nullable = false)	
+
+	@Column(name = "document_experience", length = 30, nullable = false)
 	private Boolean documentExperience;
-	
-	@OneToOne 
-	@JoinColumn(name ="virtualWallet_id", nullable = true)
-	private VirtualWallet virtualWallet; //virtualWallet
-	
+
+	public Teacher() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public Teacher(String id, String name, String lastname, String email, String password, Boolean documentExperience,
+			VirtualWallet virtualWallet, Course course, List<QuestionBank> questionBanks) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.lastname = lastname;
+		this.email = email;
+		this.password = password;
+		this.documentExperience = documentExperience;
+		this.virtualWallet = virtualWallet;
+		this.course = course;
+		this.questionBanks = questionBanks;
+	}
+
+	@OneToOne
+	@JoinColumn(name = "virtualWallet_id", nullable = true)
+	private VirtualWallet virtualWallet; // virtualWallet
+
 	@ManyToOne
-	@JoinColumn(name ="course_id", nullable=false)
-	private Course course; //course_id
-	
+	@JoinColumn(name = "course_id", nullable = false)
+	private Course course; // course_id
+
 	/*--*/
-	@OneToMany(mappedBy="teacher", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "teacher", fetch = FetchType.LAZY)
 	private List<QuestionBank> questionBanks;
-	
-	
+
 	public String getId() {
 		return id;
 	}
@@ -119,5 +138,26 @@ public class Teacher{
 		this.questionBanks = questionBanks;
 	}
 
-	
+	@Override
+	public int hashCode() {
+		return Objects.hash(course, documentExperience, email, id, lastname, name, password, questionBanks,
+				virtualWallet);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Teacher other = (Teacher) obj;
+		return Objects.equals(course, other.course) && Objects.equals(documentExperience, other.documentExperience)
+				&& Objects.equals(email, other.email) && Objects.equals(id, other.id)
+				&& Objects.equals(lastname, other.lastname) && Objects.equals(name, other.name)
+				&& Objects.equals(password, other.password) && Objects.equals(questionBanks, other.questionBanks)
+				&& Objects.equals(virtualWallet, other.virtualWallet);
+	}
+
 }
