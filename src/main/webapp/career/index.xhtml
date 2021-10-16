@@ -13,7 +13,6 @@
 			<p:growl id="messages" showDetail="true"/>
 	
 			<p:dataTable id="careerDataTable" var="career"
-			
 				value="#{careerView.careers}"
 				selection="#{careersSelected}" rowKey="#{careers.id}">
 
@@ -53,7 +52,7 @@
             		<f:setPropertyActionListener value="#{career}" target="#{careerView.careerSelected}"/>
             	</p:commandButton>
             </p:column>
-				
+					
 
 			 <f:facet name="footer">
             	<p:commandButton process="careerDataTable" value="New" icon="pi pi-check" 

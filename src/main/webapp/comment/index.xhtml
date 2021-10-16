@@ -110,8 +110,15 @@
 			showEffect="fade" minHeight="300" width="300" responsive="true">
 			<p:outputPanel id="comment-content" class="ui-fluid">
 				<div class="p-field">
-					<p:outputLabel for="description">Name</p:outputLabel>
+					<p:outputLabel for="description">Description</p:outputLabel>
 					<p:inputText id="description" value="#{commentView.commentSelected.description}"
+						required="true" />
+				</div>
+			</p:outputPanel>
+			<p:outputPanel id="comment-content" class="ui-fluid">
+				<div class="p-field">
+					<p:outputLabel for="date">Date</p:outputLabel>
+					<p:inputText id="date" value="#{commentView.commentSelected.date}"
 						required="true" />
 				</div>
 			</p:outputPanel>

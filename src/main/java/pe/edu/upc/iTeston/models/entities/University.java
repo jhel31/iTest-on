@@ -1,6 +1,7 @@
 package pe.edu.upc.iTeston.models.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +29,19 @@ public class University {
 	
 	@OneToMany(mappedBy = "university", fetch = FetchType.LAZY)
 	private List<Quiz> quizzes;
+	
+	public University() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public University(String id, String name, List<UniversityDetail> universityDetail, List<Quiz> quizzes) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.universityDetail = universityDetail;
+		this.quizzes = quizzes;
+	}
 
 	public String getName() {
 		return name;
@@ -52,5 +66,24 @@ public class University {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, quizzes, universityDetail);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		University other = (University) obj;
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name)
+				&& Objects.equals(quizzes, other.quizzes) && Objects.equals(universityDetail, other.universityDetail);
+	}
+	
 	
 }

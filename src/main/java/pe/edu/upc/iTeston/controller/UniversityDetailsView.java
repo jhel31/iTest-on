@@ -13,7 +13,11 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
+import pe.edu.upc.iTeston.business.crud.CareerService;
 import pe.edu.upc.iTeston.business.crud.UniversityDetailService;
+import pe.edu.upc.iTeston.business.crud.UniversityService;
+import pe.edu.upc.iTeston.models.entities.Career;
+import pe.edu.upc.iTeston.models.entities.University;
 import pe.edu.upc.iTeston.models.entities.UniversityDetail;
 
 @Named("universityDetailView")
@@ -24,16 +28,27 @@ public class UniversityDetailsView implements Serializable {
 	private List<UniversityDetail> universitiesDetails;
 	private UniversityDetail universityDetailSelected;
 	private List<UniversityDetail> universitiesDetailsSelected;
-	private UniversityDetail universityDetailSearch;
+	
+	private List<University> universities;
+	private List<Career> careers;
+	
+
 	@Inject
 	private UniversityDetailService universityDetailsService;
+	@Inject
+	private UniversityService universityService;
+	@Inject
+	private CareerService careerService;
 	
 	@PostConstruct
 	public void init() {
-		universitiesDetails = new ArrayList<>();
+		universitiesDetailsSelected = new ArrayList<>();
+		universities = new ArrayList<>();
+		careers = new ArrayList<>();
 		try {
 			universitiesDetails = universityDetailsService.getAll();
-			universityDetailSearch = new UniversityDetail();
+			universities = universityService.getAll();
+			careers = careerService.getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,6 +76,7 @@ public class UniversityDetailsView implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		init();
 		PrimeFaces.current().executeScript("PF('universityDetailDialog').hide()");
         PrimeFaces.current().ajax().update("universityDetailDataTable");
 	}
@@ -102,13 +118,6 @@ public class UniversityDetailsView implements Serializable {
 		this.universitiesDetailsSelected = universitiesDetailsSelected;
 	}
 
-	public UniversityDetail getUniversityDetailSearch() {
-		return universityDetailSearch;
-	}
-
-	public void setUniversityDetailSearch(UniversityDetail universityDetailSearch) {
-		this.universityDetailSearch = universityDetailSearch;
-	}
 
 	public UniversityDetailService getUniversityDetailsService() {
 		return universityDetailsService;
@@ -120,6 +129,38 @@ public class UniversityDetailsView implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public List<University> getUniversities() {
+		return universities;
+	}
+
+	public void setUniversities(List<University> universities) {
+		this.universities = universities;
+	}
+
+	public List<Career> getCareers() {
+		return careers;
+	}
+
+	public void setCareers(List<Career> careers) {
+		this.careers = careers;
+	}
+
+	public UniversityService getUniversityService() {
+		return universityService;
+	}
+
+	public void setUniversityService(UniversityService universityService) {
+		this.universityService = universityService;
+	}
+
+	public CareerService getCareerService() {
+		return careerService;
+	}
+
+	public void setCareerService(CareerService careerService) {
+		this.careerService = careerService;
 	}
 	
 	

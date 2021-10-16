@@ -1,5 +1,7 @@
 package pe.edu.upc.iTeston.business.crud.impl;
 
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,6 +22,12 @@ public class ApprovalServiceImpl implements ApprovalService {
 	public JpaRepository<Approval, String> getJpaRepository() {
 		
 		return approvalRepository;
+	}
+
+	@Override
+	public List<Approval> findByLevel(Integer level) throws Exception {
+		// TODO Auto-generated method stub
+		return approvalRepository.findByLevel(level);
 	}
 
 }
