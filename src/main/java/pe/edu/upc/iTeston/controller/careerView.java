@@ -62,6 +62,7 @@ public class careerView implements Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		init();
 		PrimeFaces.current().executeScript("PF('careerDialog').hide()");
         PrimeFaces.current().ajax().update("careerDataTable");
 	}

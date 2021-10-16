@@ -1,6 +1,7 @@
 package pe.edu.upc.iTeston.business.crud.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -26,4 +27,9 @@ public class UniversityServiceImpl implements UniversityService{
 		return universityRepository.findByName(name);
 	}
 
+	@Override
+	public Optional<University> findById(String idUniversity) throws Exception {
+		return universityRepository.findById(idUniversity);
+	}
+	
 }

@@ -1,5 +1,7 @@
 package pe.edu.upc.iTeston.models.entities;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,7 +23,20 @@ public class UniversityDetail {
 	@ManyToOne
 	@JoinColumn(name = "id_career", nullable = false)
 	private Career career;
+	
+	public UniversityDetail() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
+	public UniversityDetail(String id, University university, Career career) {
+		super();
+		this.id = id;
+		this.university = university;
+		this.career = career;
+	}
+
+	//gets and sets
 	public String getId() {
 		return id;
 	}
@@ -46,4 +61,23 @@ public class UniversityDetail {
 		this.career = career;
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(career, id, university);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UniversityDetail other = (UniversityDetail) obj;
+		return Objects.equals(career, other.career) && Objects.equals(id, other.id)
+				&& Objects.equals(university, other.university);
+	}
+
+	
 }
