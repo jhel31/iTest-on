@@ -1,9 +1,12 @@
 package pe.edu.upc.iTeston.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -14,6 +17,8 @@ import pe.edu.upc.iTeston.business.crud.ApprovalService;
 import pe.edu.upc.iTeston.business.crud.QuestionBankService;
 import pe.edu.upc.iTeston.business.crud.StudentService;
 import pe.edu.upc.iTeston.models.entities.Approval;
+import pe.edu.upc.iTeston.models.entities.QuestionBank;
+import pe.edu.upc.iTeston.models.entities.Student;
 
 @Named("approvalView")
 @ViewScoped
@@ -25,6 +30,9 @@ public class ApprovalView implements Serializable {
 	private Approval approvalSearch;
 	private List<Approval> approvals;
 	private List<Approval> approvalsSelected;
+	
+	private List<Student> students;
+	private List<QuestionBank> questionBanks;
 
 	@Inject
 	private ApprovalService approvalService;
@@ -35,8 +43,14 @@ public class ApprovalView implements Serializable {
 
 	@PostConstruct
 	public void init() {
+		approvalsSelected = new ArrayList<>();
+		approvalSelected = new Approval();
+		students = new ArrayList<Student>();
+		questionBanks = new ArrayList<QuestionBank>();
 		try {
 			approvals = approvalService.getAll();
+			students = studentService.getAll();
+			questionBanks =  questionBankService.getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,6 +81,14 @@ public class ApprovalView implements Serializable {
 		PrimeFaces.current().ajax().update("approvalDataTable");
 	}
 
+	public void searchApproval() {
+		try {
+			approvals = approvalService.findByLevel(approvalSearch.getApprovalLevel());
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
 	
 	public void getAllApproval() {
 		try {
@@ -86,6 +108,7 @@ public class ApprovalView implements Serializable {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Remove", "ItemRemoved"));	
 	}
 	public List<Approval> getApproval() {
 		return approvals;
@@ -163,6 +186,22 @@ public class ApprovalView implements Serializable {
 		this.questionBankService = questionBankService;
 	}
 
+	public List<Student> getStudents() {
+		return students;
+	}
 
+	public void setStudents(List<Student> students) {
+		this.students = students;
+	}
+
+	public List<QuestionBank> getQuestionBanks() {
+		return questionBanks;
+	}
+
+	public void setQuestionBanks(List<QuestionBank> questionBanks) {
+		this.questionBanks = questionBanks;
+	}
+
+	
 	
 }

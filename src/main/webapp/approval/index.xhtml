@@ -11,12 +11,11 @@
 	<h:form>
 		<div class="card">
 			<p:growl id="messages" showDetail="true" />
-			<p:dataTable id="approvalDataTable"
-				widgetvar="approvalDataTableWidget" var="approval"
-				value="#{approvalView.approvals}"
-				selection="#{approvalView.approvalSelected}" reflow="true"
+			<p:dataTable id="approvalDataTable" var="approval"
+				value="#{approvalView.approvals}" selection="#{approvalSelected}"
 				rowkey="#{approval.id}" paginator="true" paginatorPosition="bottom"
-				rows="3" sortMode="single" allowUnsorting="true">
+				widgetvar="approvalDataTableWidget" reflow="true" rows="3"
+				sortMode="single" allowUnsorting="true">
 
 				<f:facet name="header">
 					<div class="table-header">
@@ -36,22 +35,27 @@
 				</f:facet>
 				<p:column selectionMode="Multiple"
 					style="width:16px;text-align:center" />
-				<p:column headerText="Id" sortBy="#{approval.id}">
+				<p:column headerText="Id">
 					<h:outputText value="#{approval.id}" />
 				</p:column>
-				<p:column headerText="Level" sortBy="#{approval.approvalLevel}">
+				<p:column headerText="Level">
 					<h:outputText value="#{approval.approvalLevel}" />
 				</p:column>
-				<p:column headerText="Date" sortBy="#{approval.approvalDate}">
+				<p:column headerText="Date">
 					<h:outputText value="#{approval.approvalDate}" />
 				</p:column>
-
+				<p:column headerText="id student">
+					<h:outputText value="#{approval.student.id}" />
+				</p:column>
+				<p:column headerText="id questionbank">
+					<h:outputText value="#{approval.questionBank.id}" />
+				</p:column>
 				<p:column>
 					<p:commandButton icon="pi pi-pencil"
 						oncomplete="PF('approvalDialog').show()"
 						styleClass="edit-button rounded-button ui-button-success"
 						update="@form:approval-content" process="@this">
-						<f:setPropertyActionListener value="#{region}"
+						<f:setPropertyActionListener value="#{approval}"
 							target="#{approvalView.approvalSelected}" />
 						<p:resetInput target="@form:approval-content" />
 					</p:commandButton>
@@ -62,12 +66,7 @@
 							target="#{approvalView.approvalSelected}" />
 					</p:commandButton>
 				</p:column>
-				<p:ajax event="rowSelectCheckbox"
-					update="approval-button-delete approval-button-edit " />
-				<p:ajax event="rowUnselectCheckbox"
-					update="approval-button-delete approval-button-edit" />
-				<p:ajax event="toggleSelect"
-					update="approval-button-delete approval-button-edit" />
+
 				<f:facet name="footer">
 					<p:commandButton process="approvalDataTable" value="New"
 						icon="pi pi-check" actionListener="#{approvalView.createNew}"
@@ -75,38 +74,27 @@
 						oncomplete="PF('approvalDialog').show()"
 						styleClass="ui-button-raised ui-button-success" />
 
-					<p:commandButton id="approval-button-edit"
-						process="approvalDataTable" value="Edit" icon="pi pi-check"
-						actionListener="#{approvalView.editApprovalSelected}"
-						update="@form:approval-content"
-						oncomplete="PF('approvalDialog').show()"
-						styleClass="ui-button-raised ui-button-help"
-						disabled="#{!approvalView.hasApprovalsSelected()}" />
 
-					<p:commandButton id="approval-button-delete"
-						process="approvalDataTable" value="Delete" icon="pi pi-check"
-						oncomplete="PF('approvalDialog').show()"
-						styleClass="ui-button-raised ui-button-danger"
-						disabled="#{!approvalView.hasApprovalsSelected()}"
-						update="approvalDataTable" />
 				</f:facet>
 			</p:dataTable>
 		</div>
-
 		<p:dialog header="Approval" widgetVar="approvalDialog" modal="true"
 			showEffect="fade" minHeight="300" width="300" responsive="true">
 			<p:outputPanel id="approval-content" class="ui-fluid">
 				<div class="p-field">
-				
+					<p:outputLabel for="id">Id</p:outputLabel>
+					<p:inputText id="id" value="#{approvalView.approvalSelected.id}"
+						required="true" />
 					<p:outputLabel for="level">Level</p:outputLabel>
-					<p:inputText id="level" value="#{approvalView.approvalSelected.approvalLevel}"
+					<p:inputText id="level"
+						value="#{approvalView.approvalSelected.approvalLevel}"
 						required="true" />
-						
+
 					<p:outputLabel for="date">Date</p:outputLabel>
-					<p:inputText id="date" value="#{approvalView.approvalSelected.approvalDate}"
-						required="true" />
+					<p:inputText id="date"
+						value="#{approvalView.approvalSelected.approvalDate}" />
 				</div>
-				
+
 			</p:outputPanel>
 			<f:facet name="footer">
 				<p:commandButton value="Save" icon="pi pi-check"
@@ -114,10 +102,9 @@
 					update="approval-content approvalDataTable"
 					process="approval-content @this" />
 				<p:commandButton value="Cancel" icon="pi pi-times"
-					onclick="PF('regionDialog').hide()" class="ui-button-secondary" />
+					onclick="PF('approvalDialog').hide()" class="ui-button-secondary" />
 			</f:facet>
 		</p:dialog>
-
 		<p:confirmDialog id="prueba" widgetVar="deleteDialog"
 			showEffect="fade" width="300" message="Delete the item?"
 			header="Confirm" severity="warn">
