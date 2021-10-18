@@ -4,6 +4,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
+
 	<title>Approval CRUD</title>
 </h:head>
 
@@ -11,6 +12,7 @@
 	<h:form>
 		<div class="card">
 			<p:growl id="messages" showDetail="true" />
+
 			<p:dataTable id="approvalDataTable" var="approval"
 				value="#{approvalView.approvals}" selection="#{approvalSelected}"
 				rowkey="#{approval.id}" paginator="true" paginatorPosition="bottom"
@@ -35,6 +37,7 @@
 				</f:facet>
 				<p:column selectionMode="Multiple"
 					style="width:16px;text-align:center" />
+
 				<p:column headerText="Id">
 					<h:outputText value="#{approval.id}" />
 				</p:column>
@@ -50,12 +53,15 @@
 				<p:column headerText="id questionbank">
 					<h:outputText value="#{approval.questionBank.id}" />
 				</p:column>
+
 				<p:column>
 					<p:commandButton icon="pi pi-pencil"
 						oncomplete="PF('approvalDialog').show()"
 						styleClass="edit-button rounded-button ui-button-success"
 						update="@form:approval-content" process="@this">
+
 						<f:setPropertyActionListener value="#{approval}"
+
 							target="#{approvalView.approvalSelected}" />
 						<p:resetInput target="@form:approval-content" />
 					</p:commandButton>
@@ -67,6 +73,7 @@
 					</p:commandButton>
 				</p:column>
 
+        
 				<f:facet name="footer">
 					<p:commandButton process="approvalDataTable" value="New"
 						icon="pi pi-check" actionListener="#{approvalView.createNew}"
@@ -78,10 +85,12 @@
 				</f:facet>
 			</p:dataTable>
 		</div>
+
 		<p:dialog header="Approval" widgetVar="approvalDialog" modal="true"
 			showEffect="fade" minHeight="300" width="300" responsive="true">
 			<p:outputPanel id="approval-content" class="ui-fluid">
 				<div class="p-field">
+
 					<p:outputLabel for="id">Id</p:outputLabel>
 					<p:inputText id="id" value="#{approvalView.approvalSelected.id}"
 						required="true" />
@@ -95,6 +104,7 @@
 						value="#{approvalView.approvalSelected.approvalDate}" />
 				</div>
 
+
 			</p:outputPanel>
 			<f:facet name="footer">
 				<p:commandButton value="Save" icon="pi pi-check"
@@ -102,9 +112,11 @@
 					update="approval-content approvalDataTable"
 					process="approval-content @this" />
 				<p:commandButton value="Cancel" icon="pi pi-times"
+
 					onclick="PF('approvalDialog').hide()" class="ui-button-secondary" />
 			</f:facet>
 		</p:dialog>
+
 		<p:confirmDialog id="prueba" widgetVar="deleteDialog"
 			showEffect="fade" width="300" message="Delete the item?"
 			header="Confirm" severity="warn">

@@ -30,9 +30,9 @@ public class ApprovalView implements Serializable {
 	private Approval approvalSearch;
 	private List<Approval> approvals;
 	private List<Approval> approvalsSelected;
-	
 	private List<Student> students;
 	private List<QuestionBank> questionBanks;
+
 
 	@Inject
 	private ApprovalService approvalService;
@@ -81,6 +81,7 @@ public class ApprovalView implements Serializable {
 		PrimeFaces.current().ajax().update("approvalDataTable");
 	}
 
+
 	public void searchApproval() {
 		try {
 			approvals = approvalService.findByLevel(approvalSearch.getApprovalLevel());
@@ -89,6 +90,7 @@ public class ApprovalView implements Serializable {
 			e.printStackTrace();
 		}
 	}
+
 	
 	public void getAllApproval() {
 		try {
@@ -108,7 +110,9 @@ public class ApprovalView implements Serializable {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Remove", "ItemRemoved"));	
+
 	}
 	public List<Approval> getApproval() {
 		return approvals;
@@ -202,6 +206,5 @@ public class ApprovalView implements Serializable {
 		this.questionBanks = questionBanks;
 	}
 
-	
 	
 }

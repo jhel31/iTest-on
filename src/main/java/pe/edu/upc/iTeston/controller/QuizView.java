@@ -13,7 +13,6 @@ import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
-import pe.edu.upc.iTeston.business.crud.FreemiumService;
 import pe.edu.upc.iTeston.business.crud.QuizService;
 import pe.edu.upc.iTeston.business.crud.SubscriptionService;
 import pe.edu.upc.iTeston.business.crud.UniversityService;
@@ -41,21 +40,17 @@ public class QuizView implements Serializable {
 	private UniversityService uService;
 	@Inject
 	private SubscriptionService sService;
-	@Inject
-	private FreemiumService fService;
 
 	@PostConstruct
 	public void init() {
 		quizzesSelected = new ArrayList<>();
 		universities = new ArrayList<University>();
 		subscriptions = new ArrayList<Subscription>();
-		freemiums = new ArrayList<Freemium>();
 		quizSelected = new Quiz();
 		try {
 			quizzes = quizService.getAll();
 			universities = uService.getAll();
 			subscriptions = sService.getAll();
-			freemiums = fService.getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

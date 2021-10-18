@@ -23,7 +23,7 @@ public class Subscription {
 	private Date issueDate;
 	
 	@Column(name = "expire_subcription", length = 40, nullable = false)
-	private String expire;
+	private Date expire;
 	
 	@ManyToOne
 	@JoinColumn(name="id_paymentMethods")
@@ -44,18 +44,6 @@ public class Subscription {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Subscription(String id, Date issueDate, String expire, PaymentMethod paymentMethod, Student student,
-			List<Quiz> quizzes, float plan) {
-		super();
-		this.id = id;
-		this.issueDate = issueDate;
-		this.expire = expire;
-		this.paymentMethod = paymentMethod;
-		this.student = student;
-		this.quizzes = quizzes;
-		this.plan = plan;
-	}
-
 	public String getId() {
 		return id;
 	}
@@ -72,11 +60,11 @@ public class Subscription {
 		this.issueDate = issueDate;
 	}
 
-	public String getExpire() {
+	public Date getExpire() {
 		return expire;
 	}
 
-	public void setExpire(String expire) {
+	public void setExpire(Date expire) {
 		this.expire = expire;
 	}
 
@@ -132,6 +120,19 @@ public class Subscription {
 				&& Objects.equals(quizzes, other.quizzes) && Objects.equals(student, other.student);
 	}
 
+	public Subscription(String id, Date issueDate, Date expire, PaymentMethod paymentMethod, Student student,
+			List<Quiz> quizzes, float plan) {
+		super();
+		this.id = id;
+		this.issueDate = issueDate;
+		this.expire = expire;
+		this.paymentMethod = paymentMethod;
+		this.student = student;
+		this.quizzes = quizzes;
+		this.plan = plan;
+	}
+
+	
 	
 }
 

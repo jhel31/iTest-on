@@ -38,7 +38,9 @@ public class ApprovalRepositoryImpl implements ApprovalRepository {
 	@Override
 	public List<Approval> findByLevel(Integer level) throws Exception {
 		// TODO Auto-generated method stub
+
 		String jpql = "SELECT a FROM Approvals a WHERE a.level_approval LIKE '%" + level + "%'" ;
+
 		System.out.println(jpql);
 		return findAll(Approval.class, jpql); 
 	}
