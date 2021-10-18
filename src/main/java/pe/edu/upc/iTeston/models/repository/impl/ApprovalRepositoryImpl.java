@@ -31,14 +31,16 @@ public class ApprovalRepositoryImpl implements ApprovalRepository {
 
 	@Override
 	public List<Approval> findAll() throws Exception {
-		String jpql = "SELECT approval FROM Approval approval";
+		String jpql = "SELECT approval FROM Approvals approval";
 		return findAll(Approval.class, jpql);
 	}
 
 	@Override
 	public List<Approval> findByLevel(Integer level) throws Exception {
 		// TODO Auto-generated method stub
-		String jpql = "SELECT a FROM Approval a WHERE a.level_approval LIKE '%" + level + "%'" ;
+
+		String jpql = "SELECT a FROM Approvals a WHERE a.level_approval LIKE '%" + level + "%'" ;
+
 		System.out.println(jpql);
 		return findAll(Approval.class, jpql); 
 	}

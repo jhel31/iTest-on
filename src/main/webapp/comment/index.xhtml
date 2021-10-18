@@ -14,11 +14,12 @@
 			<p:growl id="messages" showDetail="true" />
 
 			<p:dataTable id="commentDataTable" var="comment"
-				widgetVar="commentDataTableWidget" value="#{commentView.comments}"
-				selectionMode="single" selection="#{commentView.commentsSelected}"
-				rowkey="#{comment.id}" paginator="true" paginatorPosition="bottom"
-				rows="5" sortMode="single" allowUnsorting="true" reflow="true">
-
+				value="#{commentView.comments}" selectionMode="single"
+				selection="#{commentsSelected}" rowkey="#{comment.id}"
+				widgetVar="commentDataTableWidget" paginator="true"
+				paginatorPosition="bottom" rows="5" sortMode="single"
+				allowUnsorting="true" reflow="true">
+				<!--  -->
 
 				<f:facet name="header">
 					<div class="table-header">
@@ -41,6 +42,7 @@
 				<p:column selectionMode="Multiple"
 					style="width:16px;text-align:center" />
 
+
 				<!-- Table header content  -->
 				<p:column headerText="id">
 					<h:outputText value="#{comment.id}" />
@@ -54,7 +56,14 @@
 					<h:outputText value="#{comment.date}" />
 				</p:column>
 
-				<p:column>
+				<p:column headerText="id student">
+					<h:outputText value="#{comment.student.id}" />
+				</p:column>
+				<p:column headerText="id_questionbank">
+					<h:outputText value="#{comment.questionBank.id}" />
+				</p:column>
+
+				<p:column headerText="actions">
 					<p:commandButton icon="pi pi-pencil"
 						oncomplete="PF('commentDialog').show()"
 						styleClass="edit-button rounded-button ui-button-success"
@@ -110,18 +119,26 @@
 			showEffect="fade" minHeight="300" width="300" responsive="true">
 			<p:outputPanel id="comment-content" class="ui-fluid">
 				<div class="p-field">
+
+					<p:outputLabel for="id">Id</p:outputLabel>
+					<p:inputText id="id" value="#{commentView.commentSelected.id}"
+
+						required="true" />
 					<p:outputLabel for="description">Description</p:outputLabel>
-					<p:inputText id="description" value="#{commentView.commentSelected.description}"
-						required="true" />
-				</div>
-			</p:outputPanel>
-			<p:outputPanel id="comment-content" class="ui-fluid">
-				<div class="p-field">
+					<p:inputText id="description"
+						value="#{commentView.commentSelected.description}" required="true" />
+
 					<p:outputLabel for="date">Date</p:outputLabel>
-					<p:inputText id="date" value="#{commentView.commentSelected.date}"
-						required="true" />
+					<p:datePicker id="date" />
+
+					<!-- 
+					There are some problems making the datepicker work
+					The same goes for students and question bank input panels
+					 -->
+
 				</div>
 			</p:outputPanel>
+
 			<f:facet name="footer">
 				<p:commandButton value="Save" icon="pi pi-check"
 					actionListener="#{commentView.saveComment}"
@@ -142,6 +159,7 @@
 				styleClass="ui-button-secondary" icon="pi pi-times"
 				onclick="PF('deleteDialog').hide()" />
 		</p:confirmDialog>
+
 	</h:form>
 </h:body>
 </html>

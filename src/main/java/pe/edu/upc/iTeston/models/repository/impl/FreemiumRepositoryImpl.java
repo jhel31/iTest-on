@@ -31,7 +31,7 @@ public class FreemiumRepositoryImpl implements FreemiumRepository {
 	@Override
 	public List<Freemium> findAll() throws Exception {
 		// TODO Auto-generated method stub
-		String jpql = "SELECT freemium FROM Freemium freemium";
+		String jpql = "SELECT freemium FROM Freemiums freemium";
 		return findAll(Freemium.class, jpql);
 	}
 

@@ -14,7 +14,11 @@ import javax.inject.Named;
 import org.primefaces.PrimeFaces;
 
 import pe.edu.upc.iTeston.business.crud.CommentService;
+import pe.edu.upc.iTeston.business.crud.QuestionBankService;
+import pe.edu.upc.iTeston.business.crud.StudentService;
 import pe.edu.upc.iTeston.models.entities.Comment;
+import pe.edu.upc.iTeston.models.entities.QuestionBank;
+import pe.edu.upc.iTeston.models.entities.Student;
 
 @Named("commentView")
 @ViewScoped
@@ -27,14 +31,29 @@ public class CommentView implements Serializable{
 	private List<Comment> comments;
 	private List<Comment> commentsSelected;
 	
+	private List<Student> students;
+	private List<QuestionBank> questionBanks;
+	
 	@Inject
 	private CommentService commentService;
 
+	@Inject 
+	private StudentService studentService;
+	
+	@Inject
+	private QuestionBankService questionBankService;
+	
+	
 	@PostConstruct
 	public void init() {
 		commentsSelected = new ArrayList<>();
+		commentSelected = new Comment();
+		students = new ArrayList<Student>();
+		questionBanks = new ArrayList<QuestionBank>();
 		try {
 			comments = commentService.getAll();
+			students = studentService.getAll();
+			questionBanks =  questionBankService.getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -150,6 +169,42 @@ public class CommentView implements Serializable{
 
 	public CommentService getCommentService() {
 		return commentService;
+	}
+
+	public List<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(List<Student> students) {
+		this.students = students;
+	}
+
+	public List<QuestionBank> getQuestionBanks() {
+		return questionBanks;
+	}
+
+	public void setQuestionBanks(List<QuestionBank> questionBanks) {
+		this.questionBanks = questionBanks;
+	}
+
+	public StudentService getStudentService() {
+		return studentService;
+	}
+
+	public void setStudentService(StudentService studentService) {
+		this.studentService = studentService;
+	}
+
+	public QuestionBankService getQuestionBankService() {
+		return questionBankService;
+	}
+
+	public void setQuestionBankService(QuestionBankService questionBankService) {
+		this.questionBankService = questionBankService;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
 	}
 	
 	
