@@ -34,4 +34,10 @@ public class QuestionBankRepositoryImpl implements QuestionBankRepository{
 		return findAll(QuestionBank.class,jpql);
 	}
 
+	@Override
+	public List<QuestionBank> findByTeacher(String id) throws Exception {
+		String jpql = "SELECT r FROM QuestionBank r WHERE r.teacher.id LIKE '%" + id + "%'" ;	
+		System.out.println(jpql);
+		return findAll(QuestionBank.class, jpql);
+	}
 }

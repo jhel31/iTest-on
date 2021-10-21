@@ -3,27 +3,136 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui">
 
-    <h:head>
-    	<title>QuestionBank CRUD</title>
-    </h:head>
+ <h:head>
+   	<title>Question Bank</title>
+</h:head>
 
-    <h:body>
-    	<h:form>
+<h:body>
+<style type="text/css">
+    button.ui-button {
+        margin-right: .5rem;
+    }
+</style>
+<h:form>
     <div class="card">
-        <p:dataTable var="questionBank" value="#{questionBankView.questionBanks}">
-            <p:column headerText="Id">
+        <p:growl id="messages" showDetail="true"/>
+        
+        <p:dataTable id = "questionBankDataTable" var="questionBank" value="#{questionBankView.questionBanks}"
+        		selection = "#{questionBankView.questionBanksSelected}" reflow = "true"
+        		rowKey = "#{questionBank.id}" paginator="true" paginatorPosition="top" 
+        		rows="5" sortMode="single" allowUnsorting="true">
+        		
+        	<p:column selectionMode="Multiple" style="width:20px;text-align:center"/>
+            
+            <p:column headerText="Id" sortBy="#{questionBank.id}">
                 <h:outputText value="#{questionBank.id}" />
             </p:column>
-            <p:column headerText="Teacher">
+            <p:column headerText="Quiz" sortBy="#{questionBank.quiz.id}">
+                <h:outputText value="#{questionBank.quiz.id}" />
+            </p:column>
+            <p:column headerText="Teacher" sortBy="#{questionBank.teacher.id}">
                 <h:outputText value="#{questionBank.teacher.id}" />
             </p:column>
-
-            <p:column headerText="Description">
+            <p:column headerText="Description" sortBy="#{questionBank.description}">
                 <h:outputText value="#{questionBank.description}" />
             </p:column>
+            <p:column headerText="Results" sortBy="#{questionBank.results}">
+                <h:outputText value="#{questionBank.results}" />
+            </p:column>
+            <p:column headerText="Creation Date" sortBy="#{questionBank.creationDate}">
+                <h:outputText value="#{questionBank.creationDate}" />
+            </p:column>
 
+            <p:column>
+            	<p:commandButton icon = "pi pi-pencil" oncomplete="PF('questionBankDialog').show()"
+            			styleClass="rounded-button ui-button-help" 
+            			update= "@form:questionBank-content" process="@this">
+            		<f:setPropertyActionListener value="#{questionBank}" target="#{questionBankView.questionBankSelected}"/>
+            		<p:resetInput target="@form:questionBank-content"/>
+            	</p:commandButton>
+            	<p:commandButton icon = "pi pi-trash" style="margin-left: 10px;"
+            					styleClass="rounded-button ui-button-danger" process = "@this"
+            					oncomplete="PF('deleteQuestionBankDialog').show()">
+            		<f:setPropertyActionListener value="#{questionBank}" target="#{questionBankView.questionBankSelected}"/>
+            	</p:commandButton>
+            </p:column>
+            
+            <p:ajax event="rowSelect" update="delete-questionBanks-button edit-questionBanks-button"/>
+            <p:ajax event="rowUnselect" update="delete-questionBanks-button edit-questionBanks-button"/>
+            <p:ajax event="rowSelectCheckbox" update="delete-questionBanks-button edit-questionBanks-button"/>
+            <p:ajax event="rowUnselectCheckbox" update="delete-questionBanks-button edit-questionBanks-button"/>
+            <p:ajax event="toggleSelect" update="delete-questionBanks-button edit-questionBanks-button"/>
+            
+            <f:facet name="footer">
+            	<p:commandButton process = "questionBankDataTable" value = "New" icon = "pi pi-plus"
+            			actionListener="#{questionBankView.createNew}" update="@form:questionBank-content"
+            			oncomplete="PF('questionBankDialog').show()" styleClass="ui-button-raised ui-button-success"/>
+
+            	<p:commandButton id="edit-questionBanks-button" process = "questionBankDataTable" value = "Edit" icon = "pi pi-pencil"
+            			actionListener="#{questionBankView.editQuestionBankSelected}" update="@form:questionBank-content"            			
+            			oncomplete="PF('questionBankDialog').show()" styleClass="ui-button-raised ui-button-help"
+            			disabled="#{!questionBankView.hasSelectedQuestionBank()}"/>
+            			
+                <p:commandButton id="delete-questionBanks-button" process = "questionBankDataTable" value="Delete"
+                        icon="pi pi-trash" actionListener="#{questionBankView.deleteQuestionBank()}"
+                        styleClass="ui-button-danger" disabled="#{!questionBankView.hasSelectedQuestionBank()}"
+                        update="questionBankDataTable">
+                    <p:confirm header="Confirmation" message="Delete the selected Question Bank?"
+                              icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+            </f:facet>
         </p:dataTable>
     </div>
+    <p:dialog header="Question Bank" widgetVar="questionBankDialog" modal="true" showEffect="fade" responsive="true">
+    	<p:outputPanel id="questionBank-content" class = "ui-fluid">
+			<div class="p-field">
+            	<p:outputLabel for="id">ID</p:outputLabel>
+            	<p:inputText id="id" value="#{questionBankView.questionBankSelected.id}" required="true"/>
+            </div>
+			<div class="p-field">
+            	<p:outputLabel for="id_quiz">Quiz</p:outputLabel>
+            	<p:inputText id="id_quiz" value="#{questionBankView.questionBankSelected.quiz.id}" required="true"/>
+            </div>
+			<div class="p-field">
+            	<p:outputLabel for="id_teacher">Teacher</p:outputLabel>
+            	<p:inputText id="id_teacher" value="#{questionBankView.questionBankSelected.teacher.id}" required="true"/>
+            </div>
+			<div class="p-field">
+            	<p:outputLabel for="description">Description</p:outputLabel>
+            	<p:inputText id="description" value="#{questionBankView.questionBankSelected.description}" required="true"/>
+            </div>
+			<div class="p-field">
+            	<p:outputLabel for="results">Results</p:outputLabel>
+            	<p:inputText id="results" value="#{questionBankView.questionBankSelected.results}" required="true"/>
+            </div>
+			<div class="p-field">
+            	<p:outputLabel for="creation_date">Creation Date</p:outputLabel>
+            	<p:inputText id="creation_date" value="#{questionBankView.questionBankSelected.creationDate}" required="true"/>
+            </div>
+
+    	</p:outputPanel>
+    	<f:facet name="footer">
+        	<p:commandButton value="Save" icon="pi pi-check" actionListener="#{questionBankView.saveQuestionBank}"
+        			update="questionBank-content questionBankDataTable" process="questionBank-content @this"/>
+        	<p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('questionBankDialog').hide()"
+        			class="ui-button-secondary"/>
+        </f:facet>
+        
+    </p:dialog>
+    <p:confirmDialog id = "prueba" widgetVar="deleteQuestionBankDialog" showEffect="fade" width="300"
+    				  message="Delete Question Bank?" header="Confirm" severity="warn">
+    	<p:commandButton value="Yes" icon="pi pi-check" actionListener="#{questionBankView.deleteQuestionBank()}"
+						 process="@this" oncomplete="PF('deleteQuestionBankDialog').hide()"
+						 update="questionBankDataTable @form:messages"/>
+       	<p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+           	             onclick="PF('deleteQuestionBankDialog').hide()"/>
+	</p:confirmDialog>    
+    <p:confirmDialog global="true" showEffect="fade" width="300">
+       	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+       	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                        icon="pi pi-times"/>
+    </p:confirmDialog> 
+
 </h:form>
-    </h:body>
+</h:body>
 </html>

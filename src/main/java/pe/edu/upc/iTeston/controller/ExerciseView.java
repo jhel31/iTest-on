@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,18 +25,35 @@ public class ExerciseView implements Serializable{
 	private List<Exercise> exercisesSelected;
 	@Inject
 	private ExerciseService exerciseService;
+	private Exercise exerciseSearch;
 	
+
 	@PostConstruct
 	public void init() {
 		exercisesSelected = new ArrayList<>();
+		exercises = new ArrayList<>();
+		exerciseSearch = new Exercise();
 		try {
 			exercises = exerciseService.getAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
+    public boolean hasSelectedExercises() {
+        if(exercisesSelected.isEmpty()) {
+        	return false;
+        }
+        return true;
+    }
+
+    public boolean hasSelectedExercise() {
+        if(exercisesSelected.size()==1) {
+        	return true;
+        }
+        return false;
+    }
+    
 	public void createNew() {
 		exerciseSelected = new Exercise();		
 	}
@@ -44,9 +63,13 @@ public class ExerciseView implements Serializable{
 	
 	public void saveExercise() {
 		try {
-			exerciseService.create(exerciseSelected);
-			exercises.add(exerciseSelected);
-			
+    		if(exerciseSelected.getId()==null) {
+    			exerciseService.create(exerciseSelected);
+    			exercises.add(exerciseSelected);    			
+    		}
+    		else {
+    			exerciseService.update(exerciseSelected);
+    		}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,12 +79,47 @@ public class ExerciseView implements Serializable{
 	
 	}
 
+    public void deleteExercise() {
+		try {
+			this.exercises.remove(exerciseSelected);
+			exerciseService.deleteById(this.exerciseSelected.getId());
+			this.exerciseSelected = null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		FacesContext.getCurrentInstance()
+			.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Remove", "Item Removed"));
+    }
+
+	public void searchExercise() {
+		try {
+			exercises = exerciseService.findByQuestionBank(exerciseSearch.getQuestionBank().getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
+    
+	public void getAllExercise() {
+		try {
+			exercises = exerciseService.getAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+	}
+	
 	public List<Exercise> getExercises() {
 		return exercises;
 	}
 
 	public void setExercises(List<Exercise> exercises) {
 		this.exercises = exercises;
+	}
+	public Exercise getExerciseSearch() {
+		return exerciseSearch;
+	}
+	
+	public void setExerciseSearch(Exercise exerciseSearch) {
+		this.exerciseSearch = exerciseSearch;
 	}
 
 	public Exercise getExerciseSelected() {

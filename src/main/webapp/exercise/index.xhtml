@@ -4,53 +4,143 @@
     xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-   	<title>Exercise CRUD</title>
+   	<title>Exercise</title>
 </h:head>
 
 <h:body>
+<style type="text/css">
+    button.ui-button {
+        margin-right: .5rem;
+    }
+</style>
 <h:form>
     <div class="card">
-    	<H2>Revisa tus balotarios</H2>
-        <p:dataTable id= "exerciseDataTable" var="exercise" value="#{exerciseView.exercises}" 
-        selectionMode="single" selection ="#{exerciseView.exerciseSelected}" rowKey="#{exercise.id}"
-        paginator="true"  rows="10" >
-        	<p:column selectionMode="Multiple" style = "width: 16px; text-align:center"/>
-            <p:column headerText="Id"> 
+        <p:growl id="messages" showDetail="true"/>
+        
+        <p:dataTable id = "exerciseDataTable" var="exercise" value="#{exerciseView.exercises}"
+        		selection = "#{exerciseView.exercisesSelected}" reflow = "true"
+        		rowKey = "#{exercise.id}" paginator="true" paginatorPosition="top" 
+        		rows="10" sortMode="single" allowUnsorting="true">
+        		
+        	<p:column selectionMode="Multiple" style="width:20px;text-align:center"/>
+            
+            <p:column headerText="Id" sortBy="#{region.id}"> 
                 <h:outputText value="#{exercise.id}" />
             </p:column>
-
             <p:column sortby="#{exercise.questionBank.id}" headerText="Id_Balotario">
                 <h:outputText value="#{exercise.questionBank.id}" />
             </p:column>
-
             <p:column headerText="Statement">
                 <h:outputText value="#{exercise.statement}" />
             </p:column>
-            
             <p:column headerText="Score">
                 <h:outputText value="#{exercise.score}" />
-            </p:column>
-            
+            </p:column>            
             <p:column headerText="Correct alternative">
                 <h:outputText value="#{exercise.correctAlternative}" />
             </p:column>
-			<f:facet name="footer">
-				<p:commandButton process= "exerciseDataTable" value ="New" icon= "pi pi-check"
-						oncomplete="PF('exerciseDialog').show()" styleClass="rounded-button ui-button-success"/>
-				<p:commandButton process= "exerciseDataTable" value ="Edit" icon= "pi pi-check"
-						oncomplete="PF('exerciseDialog').show()" styleClass="rounded-button ui-button-help"/>
-				<p:commandButton process= "exerciseDataTable" value ="View" icon= "pi pi-check"
-						oncomplete="PF('exerciseDialog').show()"/> 
-				<p:commandButton process= "exerciseDataTable" value ="Delete" icon= "pi pi-check"
-						oncomplete="PF('exerciseDialog').show()" styleClass="rounded-button ui-button-danger"
-						disabled="true"/> 											
-			</f:facet>>
+            
+            <p:column>
+            	<p:commandButton icon = "pi pi-pencil" oncomplete="PF('exerciseDialog').show()"
+            			styleClass="rounded-button ui-button-help" 
+            			update= "@form:exercise-content" process="@this">
+            		<f:setPropertyActionListener value="#{exercise}" target="#{exerciseView.exerciseSelected}"/>
+            		<p:resetInput target="@form:exercise-content"/>
+            	</p:commandButton>
+            	<p:commandButton icon = "pi pi-trash" style="margin-left: 10px;"
+            					styleClass="rounded-button ui-button-danger" process = "@this"
+            					oncomplete="PF('deleteExerciseDialog').show()">
+            		<f:setPropertyActionListener value="#{exercise}" target="#{exerciseView.exerciseSelected}"/>
+            	</p:commandButton>
+            </p:column>
+            
+            <p:ajax event="rowSelect" update="delete-exercises-button edit-exercises-button"/>
+            <p:ajax event="rowUnselect" update="delete-exercises-button edit-exercises-button"/>
+            <p:ajax event="rowSelectCheckbox" update="delete-exercises-button edit-exercises-button"/>
+            <p:ajax event="rowUnselectCheckbox" update="delete-exercises-button edit-exercises-button"/>
+            <p:ajax event="toggleSelect" update="delete-exercises-button edit-exercises-button"/>
+            
+            <f:facet name="footer">
+            	<p:commandButton process = "exerciseDataTable" value = "New" icon = "pi pi-plus"
+            			actionListener="#{exerciseView.createNew()}" update="@form:exercise-content"
+            			oncomplete="PF('exerciseDialog').show()" styleClass="ui-button-raised ui-button-success"/>
+
+            	<p:commandButton id="edit-exercises-button" process = "exerciseDataTable" value = "Edit" icon = "pi pi-pencil"
+            			actionListener="#{exerciseView.editExerciseSelected()}" update="@form:exercise-content"            			
+            			oncomplete="PF('exerciseDialog').show()" styleClass="ui-button-raised ui-button-help"
+            			disabled="#{!exerciseView.hasSelectedExercise()}"/>
+            			
+                <p:commandButton id="delete-exercises-button" process = "exerciseDataTable" value="Delete"
+                        icon="pi pi-trash" actionListener="#{exerciseView.deleteExercise()}"
+                        styleClass="ui-button-danger" disabled="#{!exerciseView.hasSelectedExercises()}"
+                        update="exerciseDataTable">
+                    <p:confirm header="Confirmation" message="Delete the selected region?"
+                              icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+            </f:facet>
         </p:dataTable>
     </div>
-    <p:dialog header= "Header" widgetVar="exerciseDialog" modal="true" showEffect="fade"
-    		minHeight="300" width="300">
-    	<p>Prueba</p> 
+    <p:dialog header="Exercise" widgetVar="exerciseDialog" modal="true" showEffect="fade">
+    	<p:outputPanel id="exercise-content" class = "ui-fluid" >
+			<div class="p-field">
+            	<p:outputLabel for="id">ID</p:outputLabel>
+            	<p:inputText id="id" value="#{exerciseView.exerciseSelected.id}" required="true"/>
+            </div>
+			<div class="p-field">
+            	<p:outputLabel for="idQuestionBank">ID - Question Bank</p:outputLabel>
+            	<p:inputText id="idQuestionBank" value="#{exerciseView.exerciseSelected.questionBank.id}" required="true"/>
+            </div>
+			<div class="p-field">
+            	<p:outputLabel for="statement">Statement</p:outputLabel>
+            	<p:inputText id="statement" value="#{exerciseView.exerciseSelected.statement}" required="true"/>
+            </div>
+			<div class="p-field">
+            	<p:outputLabel for="score">Score</p:outputLabel>
+            	<p:inputText id="score" value="#{exerciseView.exerciseSelected.score}" required="true"/>
+            </div>
+			<div class="p-field">
+            	<p:outputLabel for="correctAlternative">Correct Alternative</p:outputLabel>
+            	<p:inputText id="correctAlternative" value="#{exerciseView.exerciseSelected.correctAlternative}" required="true"/>
+            </div> 
+			<div class="p-field">
+            	<p:outputLabel for="wrongAlternative1">Wrong Alternative 1</p:outputLabel>
+            	<p:inputText id="wrongAlternative1" value="#{exerciseView.exerciseSelected.wrongAlternative1}" required="true"/>
+            </div>                       
+			<div class="p-field">
+            	<p:outputLabel for="wrongAlternative2">Wrong Alternative 2</p:outputLabel>
+            	<p:inputText id="wrongAlternative2" value="#{exerciseView.exerciseSelected.wrongAlternative2}" required="true"/>
+            </div>
+			<div class="p-field">
+            	<p:outputLabel for="wrongAlternative3">Wrong Alternative 3</p:outputLabel>
+            	<p:inputText id="wrongAlternative3" value="#{exerciseView.exerciseSelected.wrongAlternative3}" required="true"/>
+            </div>    	
+			<div class="p-field">
+            	<p:outputLabel for="wrongAlternative4">Wrong Alternative 4</p:outputLabel>
+            	<p:inputText id="wrongAlternative4" value="#{exerciseView.exerciseSelected.wrongAlternative4}" required="true"/>
+            </div>
+    	</p:outputPanel>
+    	<f:facet name="footer">
+        	<p:commandButton value="Save" icon="pi pi-check" actionListener="#{exerciseView.saveExercise()}"
+        			update="exercise-content exerciseDataTable" process="exercise-content @this"/>
+        	<p:commandButton value="Cancel" icon="pi pi-times" onclick="PF('exerciseDialog').hide()"
+        			class="ui-button-secondary"/>
+        </f:facet>
+        
     </p:dialog>
+    <p:confirmDialog id = "prueba" widgetVar="deleteExerciseDialog" showEffect="fade" width="300"
+    				  message="Delete exercise?" header="Confirm" severity="warn">
+    	<p:commandButton value="Yes" icon="pi pi-check" actionListener="#{exerciseView.deleteExercise()}"
+						 process="@this" oncomplete="PF('deleteExerciseDialog').hide()"
+						 update="exerciseDataTable @form:messages"/>
+       	<p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+           	             onclick="PF('deleteExerciseDialog').hide()"/>
+	</p:confirmDialog>    
+    <p:confirmDialog global="true" showEffect="fade" width="300">
+       	<p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+       	<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                        icon="pi pi-times"/>
+    </p:confirmDialog> 
+
 </h:form>
 </h:body>
 </html>

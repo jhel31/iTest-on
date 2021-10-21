@@ -33,5 +33,11 @@ public class ExerciseRepositoryImpl implements ExerciseRepository{
 		String jpql ="SELECT exercise FROM Exercise exercise";
 		return findAll(Exercise.class,jpql);
 	}
-
+	
+	@Override
+	public List<Exercise> findByQuestionBank(String id) throws Exception {
+		String jpql = "SELECT r FROM Exercise r WHERE r.id_question_bank LIKE '%" + id + "%'" ;	
+		System.out.println(jpql);
+		return findAll(Exercise.class, jpql);
+	}
 }
