@@ -9,11 +9,11 @@
     
     <h:form>
 	<div class="card"> 
-    	<p:datatable id="studentDataTable" var="student" value="#{studentView.students}">
+    	<p:datatable id="studentDataTable" var="student" value="#{studentView.students}"
     	selectionMode="single" selection="#{studentView}" rowkey ="#{student.id)">
 	    	<p:column headerText="Id">
 	    		<h:outputText value="#{student.id}"/>
-	    	     </p:column>
+			</p:column>
 	    	     <p:column headerText="Email">
 	    		    <h:outputText value="#{student.email}"/>
 	    	     </p:column>
@@ -30,8 +30,8 @@
     		     <f:facet name= "footer">  
     		     	<p:comandButton procees=studentDataTable value="View" />
     		     </f:facet>
-    		  </p:dataTable>
-    		  </div>
+    	</p:dataTable>
+    </div>
     		  
    <!--   		  <p:dialog header= "Headre" wideVar="regionDialog" modal="true" showEffect="fade"
   		  minHeight="300" width="300">--> 

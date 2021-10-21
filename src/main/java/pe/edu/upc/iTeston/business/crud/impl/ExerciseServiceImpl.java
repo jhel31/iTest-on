@@ -1,5 +1,7 @@
 package pe.edu.upc.iTeston.business.crud.impl;
 
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,4 +23,8 @@ public class ExerciseServiceImpl implements ExerciseService{
 		return exerciseRepository;
 	}
 
+	@Override
+	public List<Exercise> findByQuestionBank(String id) throws Exception {
+		return exerciseRepository.findByQuestionBank(id);
+	}
 }
